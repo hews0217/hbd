@@ -237,7 +237,13 @@ body{
 
 /* VINYL */
 .music-card{padding:28px 18px;border:1px solid rgba(243,182,206,.18);background:rgba(255,255,255,.045);}
-.vinyl-wrap{width:205px;height:205px;margin:auto auto 22px;cursor:pointer;}
+.vinyl-wrap{position:relative;width:205px;height:205px;margin:auto auto 22px;cursor:pointer;}
+.click-me{
+  position:absolute;top:-6px;right:-18px;z-index:5;
+  font-family:var(--pixel);font-size:.55rem;color:var(--pink);
+  opacity:.55;transform:rotate(-14deg);pointer-events:none;
+  text-shadow:2px 2px 0 rgba(0,0,0,.3);letter-spacing:.05em;
+}
 .vinyl{
   width:100%;height:100%;display:grid;place-items:center;border-radius:50%;
   background:repeating-radial-gradient(circle,#050505 0,#050505 3px,#191919 4px,#070707 6px);
@@ -442,7 +448,7 @@ body{
 <div class="container">
   <div class="opening-small">for you,</div>
   <h1 class="opening-title">HAPPY<br>BIRTHDAY<span>ISHI</span></h1>
-  <p class="opening-copy">I made something for you.<br>Open it when you're ready.</p>
+  <p class="opening-copy">I made you something for you.<br>Open it when you're ready.</p>
 
   <div class="envelope-stage" onclick="openEnvelope()">
     <div class="envelope-shadow"></div>
@@ -543,6 +549,7 @@ body{
 
   <div class="music-card">
     <div class="vinyl-wrap" onclick="playSong()">
+      <div class="click-me">click me!</div>
       <div class="vinyl" id="vinyl"></div>
     </div>
 
