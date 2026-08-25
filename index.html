@@ -388,6 +388,9 @@ body{
   background:linear-gradient(135deg,#f2b6ce,#a897c8);font-size:4rem;
 }
 .polaroid-photo img{width:100%;height:100%;object-fit:cover;display:block;}
+.polaroid-photo.img-fallback img{display:none;}
+.polaroid-photo.img-fallback::before{content:"🤍";position:static;font-size:3.5rem;opacity:1;z-index:1;}
+.polaroid-photo.img-fallback::after{content:"";display:none;}
 .polaroid-photo::before,.polaroid-photo::after{content:"🌸";position:absolute;font-size:2.5rem;opacity:.85;z-index:2;}
 .polaroid-photo::before{top:15px;left:15px;}
 .polaroid-photo::after{right:15px;bottom:15px;}
@@ -406,6 +409,28 @@ body{
   from{opacity:0;transform:translateY(0);}
   15%{opacity:.8;}
   to{opacity:0;transform:translateY(-75vh);}
+}
+
+/* REDUCED MOTION */
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;scroll-behavior:auto !important;}
+  .pixel-star,.bg-firework,.vinyl,.peony,.rec::before{animation:none !important;}
+  html{scroll-behavior:auto;}
+}
+
+/* FOCUS STATES */
+.envelope-stage:focus-visible,
+.polaroid:focus-visible,
+.gift:focus-visible,
+.back:focus-visible,
+.next:focus-visible,
+.wish-btn:focus-visible,
+.reveal-prompt button:focus-visible,
+.vinyl-wrap:focus-visible,
+.video-cover:focus-visible{
+  outline:2px solid var(--pink);
+  outline-offset:4px;
+  border-radius:4px;
 }
 
 /* MOBILE */
@@ -450,7 +475,7 @@ body{
   <h1 class="opening-title">HAPPY<br>BIRTHDAY<span>ISHI</span></h1>
   <p class="opening-copy">I made something for you.<br>Open it when you're ready.</p>
 
-  <div class="envelope-stage" onclick="openEnvelope()">
+  <div class="envelope-stage" onclick="openEnvelope()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openEnvelope();}" role="button" tabindex="0" aria-label="Open the envelope">
     <div class="envelope-shadow"></div>
     <div class="envelope" id="envelope">
       <div class="letter-card">
@@ -517,7 +542,7 @@ body{
       <div class="paper-title">For You, Ishi</div>
 
       <div class="message-music">
-        <div class="music-label">♫ GODSPEED — FRANK OCEAN</div>
+        <div class="music-label">♫ GODSPEED — FRANK OCEAN <span style="opacity:.55">— tap ▶ if it doesn't start on its own</span></div>
         <iframe id="godspeedPlayer" class="spotify-player" src="" height="152"
           allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
           loading="eager"></iframe>
@@ -548,7 +573,7 @@ body{
   <h2 class="section-title">A Song</h2>
 
   <div class="music-card">
-    <div class="vinyl-wrap" onclick="playSong()">
+    <div class="vinyl-wrap" onclick="playSong()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();playSong();}" role="button" tabindex="0" aria-label="Play the song">
       <div class="click-me">click me!</div>
       <div class="vinyl" id="vinyl"></div>
     </div>
@@ -596,7 +621,7 @@ body{
     </div>
 
     <div class="camera-screen">
-      <div class="video-cover" id="videoCover" onclick="playVideo()">
+      <div class="video-cover" id="videoCover" onclick="playVideo()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();playVideo();}" role="button" tabindex="0" aria-label="Play the video">
         <div class="play-button">▶</div>
       </div>
       <iframe id="video" class="video-frame" src=""
@@ -657,8 +682,8 @@ body{
       <div class="peony">🌸</div>
       <div class="peony">🌸</div>
 
-      <div class="polaroid" onclick="openPolaroid()">
-        <div class="polaroid-photo"><img src="https://imgur.com/GSQUdDn.jpeg" alt="" loading="eager"></div>
+      <div class="polaroid" onclick="openPolaroid()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openPolaroid();}" role="button" tabindex="0" aria-label="Tap to see the photo">
+        <div class="polaroid-photo"><img src="https://i.imgur.com/GSQUdDn.jpeg" alt="A photo the two of us share" loading="eager" onerror="this.parentElement.classList.add('img-fallback')"></div>
         <div class="polaroid-caption">
           no matter the distance or the time, i hope only good things keep finding you.
           <br><br>
@@ -747,7 +772,7 @@ function startGodspeed() {
   const player = document.getElementById("godspeedPlayer");
   if (!player) return;
 
-  player.src = "https://open.spotify.com/embed/track/34xTFwjPQ1dC6uJmleno7x?utm_source=generator&autoplay=1";
+  player.src = "https://open.spotify.com/embed/track/34xTFwjPQ1dC6uJmleno7x?utm_source=generator&si=e6d9cc6e92f54952&autoplay=1";
 }
 
 /* MAC DEMARCO */
@@ -759,7 +784,7 @@ function playSong() {
   vinyl.classList.add("playing");
   player.style.display = "block";
 
-  const songSrc = "https://open.spotify.com/embed/track/0WiMJIxYYEex2AqhRqzV3u?utm_source=generator&autoplay=1";
+  const songSrc = "https://open.spotify.com/embed/track/0WiMJIxYYEex2AqhRqzV3u?utm_source=generator&si=31747ef2d3dc4010&autoplay=1";
   if (macPlayer && macPlayer.src !== songSrc) {
     macPlayer.src = songSrc;
   }
@@ -826,10 +851,16 @@ class Particle {
   }
 }
 
+let fireworksRunning = false;
+
 function createFirework(x, y) {
   const count = 48;
   for (let i = 0; i < count; i++) {
     fireworks.push(new Particle(x, y, Math.PI * 2 * i / count, 1.5 + Math.random() * 4));
+  }
+  if (!fireworksRunning) {
+    fireworksRunning = true;
+    animateFireworks();
   }
 }
 
@@ -837,9 +868,13 @@ function animateFireworks() {
   ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
   fireworks = fireworks.filter(particle => particle.life > 0);
   fireworks.forEach(particle => { particle.update(); particle.draw(); });
-  requestAnimationFrame(animateFireworks);
+
+  if (fireworks.length > 0) {
+    requestAnimationFrame(animateFireworks);
+  } else {
+    fireworksRunning = false;
+  }
 }
-animateFireworks();
 
 /* MAKE A WISH */
 function makeWish() {
