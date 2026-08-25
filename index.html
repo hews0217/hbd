@@ -39,13 +39,13 @@ body{
 }
 @keyframes pixelTwinkle{0%,100%{opacity:.18;}50%{opacity:.9;}}
 
-/* BACKGROUND FIREWORKS */
+/* BACKGROUND FIREWORKS — now support a per-instance color via --fw-color */
 .bg-firework{
-  position:absolute;width:4px;height:4px;background:var(--pink);
-  box-shadow:0 0 9px var(--pink); opacity:0;
+  position:absolute;width:4px;height:4px;background:var(--fw-color, var(--pink));
+  box-shadow:0 0 9px var(--fw-color, var(--pink)); opacity:0;
   animation:backgroundBurst 4s steps(12) infinite;
 }
-.bg-firework span{position:absolute;width:4px;height:4px;background:var(--pink);box-shadow:0 0 7px var(--pink);}
+.bg-firework span{position:absolute;width:4px;height:4px;background:var(--fw-color, var(--pink));box-shadow:0 0 7px var(--fw-color, var(--pink));}
 .bg-firework span:nth-child(1){transform:translateY(-35px);}
 .bg-firework span:nth-child(2){transform:translateY(35px);}
 .bg-firework span:nth-child(3){transform:translateX(-35px);}
@@ -449,20 +449,7 @@ body{
 </head>
 <body>
 
-<div id="sky">
-  <div class="bg-firework" style="left:18%;top:19%;animation-delay:0s">
-    <span></span><span></span><span></span><span></span>
-    <span></span><span></span><span></span><span></span>
-  </div>
-  <div class="bg-firework" style="left:80%;top:28%;animation-delay:1.2s">
-    <span></span><span></span><span></span><span></span>
-    <span></span><span></span><span></span><span></span>
-  </div>
-  <div class="bg-firework" style="left:53%;top:12%;animation-delay:2s">
-    <span></span><span></span><span></span><span></span>
-    <span></span><span></span><span></span><span></span>
-  </div>
-</div>
+<div id="sky"></div>
 
 <canvas id="fireworks"></canvas>
 
@@ -700,6 +687,10 @@ body{
 </div>
 
 <script>
+/* COLOR PALETTE — shared by background fireworks + canvas fireworks */
+const FW_COLORS = ["#f3b6ce","#ffd1e8","#d77fa5","#ffe9a8","#b8e3ff","#c9b6ff","#fff5b8","#ffffff","#ff9ecb"];
+function randomFwColor(){ return FW_COLORS[Math.floor(Math.random() * FW_COLORS.length)]; }
+
 /* STARS */
 const sky = document.getElementById("sky");
 for (let i = 0; i < 65; i++) {
@@ -709,6 +700,21 @@ for (let i = 0; i < 65; i++) {
   star.style.top = Math.random() * 100 + "%";
   star.style.animationDelay = Math.random() * 4 + "s";
   sky.appendChild(star);
+}
+
+/* AMBIENT BACKGROUND FIREWORKS — randomized position, color, delay, so the sky reads as multicolor */
+for (let i = 0; i < 9; i++) {
+  const fw = document.createElement("div");
+  fw.className = "bg-firework";
+  fw.style.left = Math.random() * 100 + "%";
+  fw.style.top = Math.random() * 42 + "%";
+  fw.style.setProperty("--fw-color", randomFwColor());
+  fw.style.animationDelay = Math.random() * 4 + "s";
+  fw.style.animationDuration = (3.4 + Math.random() * 1.8) + "s";
+  for (let j = 0; j < 8; j++) {
+    fw.appendChild(document.createElement("span"));
+  }
+  sky.appendChild(fw);
 }
 
 /* PAGE NAVIGATION */
@@ -830,11 +836,12 @@ resizeCanvas();
 window.addEventListener("resize", resizeCanvas);
 
 class Particle {
-  constructor(x, y, angle, speed) {
+  constructor(x, y, angle, speed, color, size) {
     this.x = x; this.y = y;
     this.angle = angle; this.speed = speed;
     this.life = 1; this.gravity = .045;
-    this.size = Math.random() > .7 ? 3 : 2;
+    this.color = color || randomFwColor();
+    this.size = size || (Math.random() > .7 ? 3 : 2);
   }
   update() {
     this.x += Math.cos(this.angle) * this.speed;
@@ -845,18 +852,34 @@ class Particle {
   }
   draw() {
     ctx.globalAlpha = Math.max(this.life, 0);
-    ctx.fillStyle = "#f3b6ce";
+    ctx.fillStyle = this.color;
+    ctx.shadowColor = this.color;
+    ctx.shadowBlur = 6;
     ctx.fillRect(this.x, this.y, this.size, this.size);
+    ctx.shadowBlur = 0;
     ctx.globalAlpha = 1;
   }
 }
 
 let fireworksRunning = false;
 
-function createFirework(x, y) {
-  const count = 48;
+/* createFirework now accepts an options object: count, speedMin, speedMax, size, color.
+   When color isn't passed, each burst picks its own random color from the palette. */
+function createFirework(x, y, options = {}) {
+  const count = options.count || 48;
+  const speedMin = options.speedMin ?? 1.5;
+  const speedMax = options.speedMax ?? 4;
+  const size = options.size;
+  const color = options.color || randomFwColor();
+
   for (let i = 0; i < count; i++) {
-    fireworks.push(new Particle(x, y, Math.PI * 2 * i / count, 1.5 + Math.random() * 4));
+    fireworks.push(new Particle(
+      x, y,
+      (Math.PI * 2 * i) / count,
+      speedMin + Math.random() * (speedMax - speedMin),
+      color,
+      size
+    ));
   }
   if (!fireworksRunning) {
     fireworksRunning = true;
@@ -876,7 +899,7 @@ function animateFireworks() {
   }
 }
 
-/* MAKE A WISH */
+/* MAKE A WISH — more bursts, brighter colors, and a big finale */
 function makeWish() {
   const button = document.getElementById("wishButton");
   const prompt = document.getElementById("revealPrompt");
@@ -886,16 +909,38 @@ function makeWish() {
 
   const positions = [
     [.15,.24],[.83,.22],[.50,.14],[.27,.38],
-    [.73,.38],[.50,.29],[.12,.48],[.88,.48]
+    [.73,.38],[.50,.29],[.12,.48],[.88,.48],
+    [.32,.16],[.68,.16],[.08,.32],[.92,.32]
   ];
 
   positions.forEach((position, index) => {
     setTimeout(() => {
-      createFirework(window.innerWidth * position[0], window.innerHeight * position[1]);
-    }, index * 280);
+      createFirework(
+        window.innerWidth * position[0],
+        window.innerHeight * position[1],
+        { count: 65, speedMin: 2, speedMax: 5.5 }
+      );
+    }, index * 200);
   });
 
-  setTimeout(() => { prompt.classList.add("show"); }, 2800);
+  /* grand finale: a bigger, layered burst dead center once the sequence finishes */
+  const finaleDelay = positions.length * 200 + 350;
+  setTimeout(() => {
+    createFirework(window.innerWidth * .5, window.innerHeight * .32, {
+      count: 150, speedMin: 3.5, speedMax: 8, size: 3, color: "#ffffff"
+    });
+    createFirework(window.innerWidth * .5, window.innerHeight * .32, {
+      count: 100, speedMin: 2.5, speedMax: 6.5, color: "#f3b6ce"
+    });
+    createFirework(window.innerWidth * .4, window.innerHeight * .38, {
+      count: 70, speedMin: 2, speedMax: 5, color: "#b8e3ff"
+    });
+    createFirework(window.innerWidth * .6, window.innerHeight * .38, {
+      count: 70, speedMin: 2, speedMax: 5, color: "#ffe9a8"
+    });
+  }, finaleDelay);
+
+  setTimeout(() => { prompt.classList.add("show"); }, finaleDelay + 1500);
 }
 
 /* REVEAL POLAROID */
@@ -908,7 +953,7 @@ function revealMessage() {
   createHearts();
 
   setTimeout(() => {
-    createFirework(window.innerWidth / 2, window.innerHeight * .35);
+    createFirework(window.innerWidth / 2, window.innerHeight * .35, { count: 70 });
   }, 350);
 }
 
