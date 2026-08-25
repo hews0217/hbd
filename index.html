@@ -899,6 +899,122 @@ function animateFireworks() {
   }
 }
 
+/* FIREWORK SOUNDS — more realistic layered launch + boom + crackle */
+let audioContext = null;
+
+function getAudioContext() {
+  if (!audioContext) {
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    if (!AudioCtx) return null;
+    audioContext = new AudioCtx();
+  }
+  if (audioContext.state === "suspended") audioContext.resume();
+  return audioContext;
+}
+
+function playFireworkSound(delay = 0, intensity = 1) {
+  const ac = getAudioContext();
+  if (!ac) return;
+
+  const start = ac.currentTime + delay;
+
+  // 1) Rising rocket trail.
+  const osc = ac.createOscillator();
+  const oscGain = ac.createGain();
+  const filter = ac.createBiquadFilter();
+
+  osc.type = "sawtooth";
+  osc.frequency.setValueAtTime(55, start);
+  osc.frequency.exponentialRampToValueAtTime(420, start + 0.55);
+  filter.type = "lowpass";
+  filter.frequency.setValueAtTime(450, start);
+  filter.frequency.exponentialRampToValueAtTime(2200, start + 0.48);
+
+  oscGain.gain.setValueAtTime(0.0001, start);
+  oscGain.gain.exponentialRampToValueAtTime(0.055 * intensity, start + 0.25);
+  oscGain.gain.exponentialRampToValueAtTime(0.0001, start + 0.60);
+
+  osc.connect(filter).connect(oscGain).connect(ac.destination);
+  osc.start(start);
+  osc.stop(start + 0.62);
+
+  // 2) Deep explosion body.
+  const boomLength = 1.05;
+  const boomBuffer = ac.createBuffer(1, Math.floor(ac.sampleRate * boomLength), ac.sampleRate);
+  const boomData = boomBuffer.getChannelData(0);
+
+  for (let i = 0; i < boomData.length; i++) {
+    const t = i / ac.sampleRate;
+    const envelope = Math.exp(-3.9 * t);
+    boomData[i] = (Math.random() * 2 - 1) * envelope;
+  }
+
+  const boom = ac.createBufferSource();
+  const boomFilter = ac.createBiquadFilter();
+  const boomGain = ac.createGain();
+
+  boom.buffer = boomBuffer;
+  boomFilter.type = "lowpass";
+  boomFilter.frequency.setValueAtTime(700, start + 0.58);
+  boomFilter.frequency.exponentialRampToValueAtTime(90, start + 1.45);
+
+  boomGain.gain.setValueAtTime(0.0001, start + 0.57);
+  boomGain.gain.exponentialRampToValueAtTime(0.55 * intensity, start + 0.59);
+  boomGain.gain.exponentialRampToValueAtTime(0.0001, start + 1.48);
+
+  boom.connect(boomFilter).connect(boomGain).connect(ac.destination);
+  boom.start(start + 0.56);
+  boom.stop(start + 1.52);
+
+  // 3) Bright crackling sparks after the main explosion.
+  const crackleLength = 1.15;
+  const crackleBuffer = ac.createBuffer(
+    1, Math.floor(ac.sampleRate * crackleLength), ac.sampleRate
+  );
+  const crackleData = crackleBuffer.getChannelData(0);
+
+  for (let i = 0; i < crackleData.length; i++) {
+    const t = i / ac.sampleRate;
+    const envelope = Math.exp(-2.6 * t);
+    // Sparse impulses make it sound more like individual sparks.
+    const impulse = Math.random() > 0.965 ? 1 : 0;
+    crackleData[i] = (Math.random() * 2 - 1) * impulse * envelope;
+  }
+
+  const crackle = ac.createBufferSource();
+  const crackleFilter = ac.createBiquadFilter();
+  const crackleGain = ac.createGain();
+
+  crackle.buffer = crackleBuffer;
+  crackleFilter.type = "highpass";
+  crackleFilter.frequency.setValueAtTime(1400, start + 0.62);
+
+  crackleGain.gain.setValueAtTime(0.0001, start + 0.63);
+  crackleGain.gain.exponentialRampToValueAtTime(0.38 * intensity, start + 0.65);
+  crackleGain.gain.exponentialRampToValueAtTime(0.0001, start + 1.55);
+
+  crackle.connect(crackleFilter).connect(crackleGain).connect(ac.destination);
+  crackle.start(start + 0.62);
+  crackle.stop(start + 1.58);
+}
+
+function playFireworksSequenceSound() {
+  const burstCount = 12;
+
+  // Slight timing variation keeps the sequence from sounding artificial.
+  for (let i = 0; i < burstCount; i++) {
+    const delay = i * 0.20 + (Math.random() * 0.035);
+    playFireworkSound(delay, 0.62 + Math.random() * 0.22);
+  }
+
+  // Big finale: several overlapping shells, like a real fireworks finale.
+  const finaleDelay = burstCount * 0.20 + 0.35;
+  playFireworkSound(finaleDelay, 1.25);
+  playFireworkSound(finaleDelay + 0.10, 1.05);
+  playFireworkSound(finaleDelay + 0.20, 0.90);
+  playFireworkSound(finaleDelay + 0.31, 0.78);
+}
+
 /* MAKE A WISH — more bursts, brighter colors, and a big finale */
 function makeWish() {
   const button = document.getElementById("wishButton");
@@ -906,6 +1022,7 @@ function makeWish() {
 
   button.classList.add("hidden");
   createHearts();
+  playFireworksSequenceSound();
 
   const positions = [
     [.15,.24],[.83,.22],[.50,.14],[.27,.38],
