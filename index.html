@@ -473,6 +473,18 @@ body{
   opacity: .9;
 }
 </style>
+
+<style>
+.ringer-disclaimer {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.ringer-disclaimer.hidden {
+  opacity: 0;
+  transform: translateY(-4px);
+  pointer-events: none;
+}
+</style>
+
 </head>
 <body>
 
@@ -681,7 +693,7 @@ body{
 
   <div class="wish">make a wish.</div>
 
-  <div class="wish-disclaimer">turn on ur ringer</div>
+  <div class="wish-disclaimer ringer-disclaimer" id="ringer-disclaimer">make sure you turn on your ringer</div>
   <button class="wish-btn" id="wishButton" onclick="makeWish()">✦ MAKE A WISH ✦</button>
 
   <div class="reveal-prompt" id="revealPrompt">
@@ -1141,6 +1153,28 @@ function openPolaroid() {
 
   createHearts();
 }
+
+function hideRingerDisclaimer() {
+  const el = document.getElementById('ringer-disclaimer');
+  if (el) {
+    el.style.setProperty('display', 'none', 'important');
+    el.setAttribute('aria-hidden', 'true');
+  }
+}
+
+</script>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const wishButtons = [...document.querySelectorAll('button, a, [role="button"]')]
+    .filter(el => el.textContent.trim().toLowerCase().includes('make a wish'));
+
+  wishButtons.forEach(button => {
+    button.addEventListener('click', hideRingerDisclaimer, { capture: true });
+    button.addEventListener('touchend', hideRingerDisclaimer, { capture: true });
+  });
+});
 </script>
 
 </body>
