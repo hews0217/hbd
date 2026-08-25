@@ -20,10 +20,14 @@
   --script:"Parisienne",cursive;
   --sans:"DM Sans",sans-serif;
 }
+
 *{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
+
 body{
-  min-height:100vh; overflow-x:hidden; color:var(--white);
+  min-height:100vh;
+  overflow-x:hidden;
+  color:var(--white);
   background:
     radial-gradient(circle at 50% 10%, #28182e, transparent 38%),
     linear-gradient(180deg, var(--bg2), var(--bg));
@@ -31,21 +35,48 @@ body{
 }
 
 /* SKY */
-#sky{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
-.pixel-star{
-  position:absolute;width:3px;height:3px;background:#fff;
-  box-shadow:4px 0 #fff, 0 4px #fff, 4px 4px #fff;
-  opacity:.45; animation:pixelTwinkle 3s steps(2) infinite;
+#sky{
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  overflow:hidden;
 }
-@keyframes pixelTwinkle{0%,100%{opacity:.18;}50%{opacity:.9;}}
 
-/* BACKGROUND FIREWORKS — now support a per-instance color via --fw-color */
+.pixel-star{
+  position:absolute;
+  width:3px;
+  height:3px;
+  background:#fff;
+  box-shadow:4px 0 #fff, 0 4px #fff, 4px 4px #fff;
+  opacity:.45;
+  animation:pixelTwinkle 3s steps(2) infinite;
+}
+
+@keyframes pixelTwinkle{
+  0%,100%{opacity:.18;}
+  50%{opacity:.9;}
+}
+
+/* BACKGROUND FIREWORKS */
 .bg-firework{
-  position:absolute;width:4px;height:4px;background:var(--fw-color, var(--pink));
-  box-shadow:0 0 9px var(--fw-color, var(--pink)); opacity:0;
+  position:absolute;
+  width:4px;
+  height:4px;
+  background:var(--fw-color, var(--pink));
+  box-shadow:0 0 9px var(--fw-color, var(--pink));
+  opacity:0;
   animation:backgroundBurst 4s steps(12) infinite;
 }
-.bg-firework span{position:absolute;width:4px;height:4px;background:var(--fw-color, var(--pink));box-shadow:0 0 7px var(--fw-color, var(--pink));}
+
+.bg-firework span{
+  position:absolute;
+  width:4px;
+  height:4px;
+  background:var(--fw-color, var(--pink));
+  box-shadow:0 0 7px var(--fw-color, var(--pink));
+}
+
 .bg-firework span:nth-child(1){transform:translateY(-35px);}
 .bg-firework span:nth-child(2){transform:translateY(35px);}
 .bg-firework span:nth-child(3){transform:translateX(-35px);}
@@ -54,6 +85,7 @@ body{
 .bg-firework span:nth-child(6){transform:translate(25px,-25px);}
 .bg-firework span:nth-child(7){transform:translate(-25px,25px);}
 .bg-firework span:nth-child(8){transform:translate(25px,25px);}
+
 @keyframes backgroundBurst{
   0%{transform:scale(.1);opacity:0;}
   12%{opacity:.8;}
@@ -63,359 +95,1085 @@ body{
 }
 
 /* PAGES */
-#app{position:relative;z-index:2;min-height:100vh;}
-.page{min-height:100svh;display:none;align-items:center;justify-content:center;padding:30px 17px 50px;}
-.page.active{display:flex;animation:pageIn .7s ease both;}
-@keyframes pageIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
-.container{width:min(100%,700px);text-align:center;}
+#app{
+  position:relative;
+  z-index:2;
+  min-height:100vh;
+}
+
+.page{
+  min-height:100svh;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:30px 17px 50px;
+}
+
+.page.active{
+  display:flex;
+  animation:pageIn .7s ease both;
+}
+
+@keyframes pageIn{
+  from{opacity:0;transform:translateY(20px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+.container{
+  width:min(100%,700px);
+  text-align:center;
+}
 
 /* OPENING */
-#opening .container{width:100%;max-width:760px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;}
-.opening-small{font-family:var(--script);color:var(--pink);font-size:2.1rem;animation:fadeUp 1s ease both;}
+#opening .container{
+  width:100%;
+  max-width:760px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+}
+
+.opening-small{
+  font-family:var(--script);
+  color:var(--pink);
+  font-size:2.1rem;
+  animation:fadeUp 1s ease both;
+}
+
 .opening-title{
-  width:100%;margin:18px auto;font-family:var(--pixel);
-  font-size:clamp(1.8rem,8vw,4.7rem);line-height:1.55;text-align:center;color:#fff;
+  width:100%;
+  margin:18px auto;
+  font-family:var(--pixel);
+  font-size:clamp(1.8rem,8vw,4.7rem);
+  line-height:1.55;
+  text-align:center;
+  color:#fff;
   text-shadow:4px 4px 0 rgba(215,127,165,.2);
   animation:fadeUp 1s .15s ease both;
 }
+
 .opening-title span{color:var(--pink);}
+
 .opening-copy{
-  width:100%;max-width:370px;margin:0 auto;color:var(--muted);
-  font-size:.82rem;line-height:1.8;text-align:center;
+  width:100%;
+  max-width:370px;
+  margin:0 auto;
+  color:var(--muted);
+  font-size:.82rem;
+  line-height:1.8;
+  text-align:center;
   animation:fadeUp 1s .3s ease both;
 }
-@keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(16px);}
+  to{opacity:1;transform:translateY(0);}
+}
 
 /* ENVELOPE */
-.envelope-stage{position:relative;width:min(90vw,390px);height:330px;margin-top:25px;cursor:pointer;perspective:1200px;}
-.envelope-shadow{
-  position:absolute;left:50%;bottom:20px;width:250px;height:25px;
-  transform:translateX(-50%);background:rgba(0,0,0,.45);filter:blur(18px);transition:.7s ease;
+.envelope-stage{
+  position:relative;
+  width:min(90vw,390px);
+  height:330px;
+  margin-top:25px;
+  cursor:pointer;
+  perspective:1200px;
 }
-.envelope-stage:hover .envelope-shadow{width:215px;opacity:.6;}
+
+.envelope-shadow{
+  position:absolute;
+  left:50%;
+  bottom:20px;
+  width:250px;
+  height:25px;
+  transform:translateX(-50%);
+  background:rgba(0,0,0,.45);
+  filter:blur(18px);
+  transition:.7s ease;
+}
+
+.envelope-stage:hover .envelope-shadow{
+  width:215px;
+  opacity:.6;
+}
+
 .envelope{
-  position:absolute;width:300px;height:195px;left:50%;top:60px;
-  transform:translateX(-50%) rotateX(0deg);transform-style:preserve-3d;
+  position:absolute;
+  width:300px;
+  height:195px;
+  left:50%;
+  top:60px;
+  transform:translateX(-50%) rotateX(0deg);
+  transform-style:preserve-3d;
   transition:transform .9s cubic-bezier(.2,.85,.2,1);
 }
+
 .envelope-body{
-  position:absolute;inset:0;z-index:2;overflow:hidden;
-  border:3px solid #874b67;border-radius:6px;
+  position:absolute;
+  inset:0;
+  z-index:2;
+  overflow:hidden;
+  border:3px solid #874b67;
+  border-radius:6px;
   background:linear-gradient(145deg,#f6bfd5,#cb7197);
-  box-shadow:9px 12px 0 rgba(0,0,0,.25), 0 20px 40px rgba(0,0,0,.3);
+  box-shadow:9px 12px 0 rgba(0,0,0,.25),0 20px 40px rgba(0,0,0,.3);
 }
+
 .envelope-body::before{
-  content:"";position:absolute;inset:0;
+  content:"";
+  position:absolute;
+  inset:0;
   background:
     linear-gradient(35deg,transparent 49%,rgba(113,52,78,.3) 50%,transparent 51%),
     linear-gradient(-35deg,transparent 49%,rgba(113,52,78,.3) 50%,transparent 51%);
 }
+
 .letter-card{
-  position:absolute;z-index:1;left:50%;top:15px;width:245px;height:165px;padding:20px;
+  position:absolute;
+  z-index:1;
+  left:50%;
+  top:15px;
+  width:245px;
+  height:165px;
+  padding:20px;
   transform:translateX(-50%);
-  background:linear-gradient(180deg,#fffdf8,#f8eee9);color:#44303a;
-  border:2px solid #dfb8c6;box-shadow:0 10px 25px rgba(0,0,0,.25);
-  transition:transform 1.15s cubic-bezier(.16,.8,.2,1);text-align:left;
+  background:linear-gradient(180deg,#fffdf8,#f8eee9);
+  color:#44303a;
+  border:2px solid #dfb8c6;
+  box-shadow:0 10px 25px rgba(0,0,0,.25);
+  transition:transform 1.15s cubic-bezier(.16,.8,.2,1);
+  text-align:left;
 }
-.letter-card::after{content:"♡";position:absolute;right:14px;bottom:9px;color:#c46f91;font-size:1.2rem;}
-.letter-card .mini{font-family:var(--script);color:#b55d82;font-size:1.65rem;}
-.letter-card small{display:block;margin-top:12px;color:#856574;font-size:.55rem;line-height:1.7;}
+
+.letter-card::after{
+  content:"♡";
+  position:absolute;
+  right:14px;
+  bottom:9px;
+  color:#c46f91;
+  font-size:1.2rem;
+}
+
+.letter-card .mini{
+  font-family:var(--script);
+  color:#b55d82;
+  font-size:1.65rem;
+}
+
+.letter-card small{
+  display:block;
+  margin-top:12px;
+  color:#856574;
+  font-size:.55rem;
+  line-height:1.7;
+}
+
 .envelope-front{
-  position:absolute;z-index:4;inset:0;pointer-events:none;
+  position:absolute;
+  z-index:4;
+  inset:0;
+  pointer-events:none;
   clip-path:polygon(0 0,50% 55%,100% 0,100% 100%,0 100%);
   background:linear-gradient(150deg,#e795b5,#bd6288);
 }
+
 .flap{
-  position:absolute;z-index:6;left:0;top:0;width:100%;height:125px;
+  position:absolute;
+  z-index:6;
+  left:0;
+  top:0;
+  width:100%;
+  height:125px;
   background:linear-gradient(155deg,#f8cadc,#d986a8);
   clip-path:polygon(0 0,100% 0,50% 100%);
-  transform-origin:top center;transition:transform .85s cubic-bezier(.2,.85,.25,1);
+  transform-origin:top center;
+  transition:transform .85s cubic-bezier(.2,.85,.25,1);
   backface-visibility:hidden;
 }
+
 .seal{
-  position:absolute;z-index:10;left:50%;top:104px;width:54px;height:54px;
-  transform:translate(-50%,-50%);display:grid;place-items:center;
+  position:absolute;
+  z-index:10;
+  left:50%;
+  top:104px;
+  width:54px;
+  height:54px;
+  transform:translate(-50%,-50%);
+  display:grid;
+  place-items:center;
   background:radial-gradient(circle at 35% 30%,#d8789d,#9d4f70);
-  border:3px solid #f8c4d8;color:white;font-size:1.45rem;
-  box-shadow:4px 6px 0 rgba(67,28,44,.35), 0 0 20px rgba(243,182,206,.25);
-  transition:opacity .3s, transform .55s cubic-bezier(.2,.8,.2,1);
+  border:3px solid #f8c4d8;
+  color:white;
+  font-size:1.45rem;
+  box-shadow:4px 6px 0 rgba(67,28,44,.35),0 0 20px rgba(243,182,206,.25);
+  transition:opacity .3s,transform .55s cubic-bezier(.2,.8,.2,1);
 }
-.envelope-stage:hover .seal{animation:sealPulse 1.3s ease-in-out infinite;}
-@keyframes sealPulse{0%,100%{transform:translate(-50%,-50%) scale(1);}50%{transform:translate(-50%,-50%) scale(1.08);}}
-.envelope.open{transform:translateX(-50%) translateY(15px) rotateX(4deg);}
-.envelope.open .flap{transform:rotateX(180deg);}
-.envelope.open .letter-card{z-index:8;transform:translateX(-50%) translateY(-125px) rotate(-1deg);transition-delay:.15s;}
-.envelope.open .seal{opacity:0;transform:translate(-50%,-50%) scale(.2) rotate(30deg);}
-.envelope.open .envelope-front{z-index:9;}
+
+.envelope-stage:hover .seal{
+  animation:sealPulse 1.3s ease-in-out infinite;
+}
+
+@keyframes sealPulse{
+  0%,100%{transform:translate(-50%,-50%) scale(1);}
+  50%{transform:translate(-50%,-50%) scale(1.08);}
+}
+
+.envelope.open{
+  transform:translateX(-50%) translateY(15px) rotateX(4deg);
+}
+
+.envelope.open .flap{
+  transform:rotateX(180deg);
+}
+
+.envelope.open .letter-card{
+  z-index:8;
+  transform:translateX(-50%) translateY(-125px) rotate(-1deg);
+  transition-delay:.15s;
+}
+
+.envelope.open .seal{
+  opacity:0;
+  transform:translate(-50%,-50%) scale(.2) rotate(30deg);
+}
+
+.envelope.open .envelope-front{
+  z-index:9;
+}
+
 .envelope-stage::after{
-  content:"";position:absolute;width:100px;height:330px;top:10px;left:-150px;
+  content:"";
+  position:absolute;
+  width:100px;
+  height:330px;
+  top:10px;
+  left:-150px;
   transform:rotate(20deg);
   background:linear-gradient(90deg,transparent,rgba(255,255,255,.18),transparent);
-  pointer-events:none;opacity:0;transition:opacity .3s;
+  pointer-events:none;
+  opacity:0;
+  transition:opacity .3s;
 }
-.envelope-stage:hover::after{opacity:1;animation:envelopeShine 1.4s ease;}
-@keyframes envelopeShine{from{left:-150px;}to{left:450px;}}
+
+.envelope-stage:hover::after{
+  opacity:1;
+  animation:envelopeShine 1.4s ease;
+}
+
+@keyframes envelopeShine{
+  from{left:-150px;}
+  to{left:450px;}
+}
+
 .open-text{
-  position:absolute;bottom:0;left:0;right:0;font-family:var(--pixel);
-  color:rgba(255,255,255,.4);font-size:.45rem;letter-spacing:.08em;transition:opacity .3s;
+  position:absolute;
+  bottom:0;
+  left:0;
+  right:0;
+  font-family:var(--pixel);
+  color:rgba(255,255,255,.4);
+  font-size:.45rem;
+  letter-spacing:.08em;
+  transition:opacity .3s;
 }
 
 /* GENERAL */
-.script{font-family:var(--script);color:var(--pink);font-size:2rem;}
-.pixel-label{font-family:var(--pixel);color:rgba(255,255,255,.5);font-size:.48rem;letter-spacing:.1em;}
-.section-title{margin:10px 0 25px;font-family:var(--serif);font-size:clamp(3rem,13vw,5rem);line-height:.9;}
+.script{
+  font-family:var(--script);
+  color:var(--pink);
+  font-size:2rem;
+}
+
+.pixel-label{
+  font-family:var(--pixel);
+  color:rgba(255,255,255,.5);
+  font-size:.48rem;
+  letter-spacing:.1em;
+}
+
+.section-title{
+  margin:10px 0 25px;
+  font-family:var(--serif);
+  font-size:clamp(3rem,13vw,5rem);
+  line-height:.9;
+}
 
 /* GIFTS */
 .gift-intro{margin-bottom:25px;}
-.gifts{display:grid;gap:17px;}
+
+.gifts{
+  display:grid;
+  gap:17px;
+}
+
 .gift{
-  position:relative;width:100%;min-height:112px;display:flex;align-items:center;gap:17px;
-  padding:18px;overflow:hidden;border:2px solid rgba(243,182,206,.18);border-radius:12px;
-  background:rgba(255,255,255,.045);color:white;text-align:left;cursor:pointer;transition:.3s;
+  position:relative;
+  width:100%;
+  min-height:112px;
+  display:flex;
+  align-items:center;
+  gap:17px;
+  padding:18px;
+  overflow:hidden;
+  border:2px solid rgba(243,182,206,.18);
+  border-radius:12px;
+  background:rgba(255,255,255,.045);
+  color:white;
+  text-align:left;
+  cursor:pointer;
+  transition:.3s;
 }
-.gift::before{content:"";position:absolute;inset:5px;border:1px solid rgba(243,182,206,.08);}
+
+.gift::before{
+  content:"";
+  position:absolute;
+  inset:5px;
+  border:1px solid rgba(243,182,206,.08);
+}
+
 .gift:hover{
-  transform:translateY(-4px);border-color:rgba(243,182,206,.65);
+  transform:translateY(-4px);
+  border-color:rgba(243,182,206,.65);
   background:rgba(243,182,206,.075);
-  box-shadow:0 0 0 3px rgba(243,182,206,.035), 0 15px 35px rgba(0,0,0,.3);
+  box-shadow:0 0 0 3px rgba(243,182,206,.035),0 15px 35px rgba(0,0,0,.3);
 }
+
 .gift-icon{
-  flex:0 0 58px;width:58px;height:58px;display:grid;place-items:center;
-  border:2px solid rgba(243,182,206,.35);background:rgba(243,182,206,.08);
-  font-size:1.7rem;box-shadow:4px 4px 0 rgba(243,182,206,.08);
+  flex:0 0 58px;
+  width:58px;
+  height:58px;
+  display:grid;
+  place-items:center;
+  border:2px solid rgba(243,182,206,.35);
+  background:rgba(243,182,206,.08);
+  font-size:1.7rem;
+  box-shadow:4px 4px 0 rgba(243,182,206,.08);
 }
-.gift h3{font-family:var(--serif);font-size:1.7rem;}
-.gift p{margin-top:3px;color:rgba(255,255,255,.45);font-size:.66rem;line-height:1.5;}
-.gift-arrow{margin-left:auto;font-family:var(--pixel);color:var(--pink);}
+
+.gift h3{
+  font-family:var(--serif);
+  font-size:1.7rem;
+}
+
+.gift p{
+  margin-top:3px;
+  color:rgba(255,255,255,.45);
+  font-size:.66rem;
+  line-height:1.5;
+}
+
+.gift-arrow{
+  margin-left:auto;
+  font-family:var(--pixel);
+  color:var(--pink);
+}
 
 /* CONTENT BOX */
 .content-box{
-  position:relative;padding:28px 22px;background:rgba(255,255,255,.045);
-  border:1px solid rgba(243,182,206,.17);box-shadow:8px 8px 0 rgba(243,182,206,.035);
+  position:relative;
+  padding:28px 22px;
+  background:rgba(255,255,255,.045);
+  border:1px solid rgba(243,182,206,.17);
+  box-shadow:8px 8px 0 rgba(243,182,206,.035);
 }
 
 /* PAPER */
 .paper{
-  position:relative;padding:34px 25px;background:var(--cream);color:#3b2932;text-align:left;
-  border:1px solid #dfbdc9;box-shadow:8px 9px 0 rgba(243,182,206,.15);
+  position:relative;
+  padding:34px 25px;
+  background:var(--cream);
+  color:#3b2932;
+  text-align:left;
+  border:1px solid #dfbdc9;
+  box-shadow:8px 9px 0 rgba(243,182,206,.15);
 }
-.paper::before{content:"";position:absolute;inset:16px;border:1px dashed rgba(177,101,132,.2);pointer-events:none;}
-.paper-title{position:relative;margin-bottom:20px;font-family:var(--script);color:#b96082;font-size:2.4rem;}
+
+.paper::before{
+  content:"";
+  position:absolute;
+  inset:16px;
+  border:1px dashed rgba(177,101,132,.2);
+  pointer-events:none;
+}
+
+.paper-title{
+  position:relative;
+  margin-bottom:20px;
+  font-family:var(--script);
+  color:#b96082;
+  font-size:2.4rem;
+}
+
 .paper-stamp{
-  position:absolute;z-index:4;right:20px;top:25px;width:48px;height:48px;
-  display:grid;place-items:center;color:#b96082;border:2px solid rgba(185,96,130,.35);
-  font-family:var(--pixel);font-size:.4rem;transform:rotate(8deg);
+  position:absolute;
+  z-index:4;
+  right:20px;
+  top:25px;
+  width:48px;
+  height:48px;
+  display:grid;
+  place-items:center;
+  color:#b96082;
+  border:2px solid rgba(185,96,130,.35);
+  font-family:var(--pixel);
+  font-size:.4rem;
+  transform:rotate(8deg);
 }
-.letter-text{position:relative;font-family:var(--serif);font-size:1.03rem;line-height:1.65;}
-.letter-text p{margin-bottom:15px;}
+
+.letter-text{
+  position:relative;
+  font-family:var(--serif);
+  font-size:1.03rem;
+  line-height:1.65;
+}
+
+.letter-text p{
+  margin-bottom:15px;
+}
 
 /* MUSIC ON LETTER */
 .message-music{
-  position:relative;margin-bottom:25px;overflow:hidden;
-  border:1px solid rgba(243,182,206,.14);border-radius:10px;background:rgba(0,0,0,.18);
+  position:relative;
+  margin-bottom:25px;
+  overflow:hidden;
+  border:1px solid rgba(243,182,206,.14);
+  border-radius:10px;
+  background:rgba(0,0,0,.18);
 }
-.music-label{padding:9px 12px;font-family:var(--pixel);font-size:.38rem;color:rgba(255,255,255,.45);text-align:left;}
-.spotify-player{width:100%;border:0;display:block;}
+
+.music-label{
+  padding:9px 12px;
+  font-family:var(--pixel);
+  font-size:.38rem;
+  color:rgba(255,255,255,.45);
+  text-align:left;
+}
+
+.spotify-player{
+  width:100%;
+  border:0;
+  display:block;
+}
 
 /* REASON */
-.reason{margin-top:23px;padding:19px;border-left:2px solid var(--pink);background:rgba(243,182,206,.035);text-align:left;}
-.reason h3{margin-bottom:12px;font-family:var(--pixel);font-size:.52rem;color:var(--pink);}
-.reason p{color:rgba(255,255,255,.7);font-size:.82rem;line-height:1.75;}
-.reason p + p{margin-top:13px;}
+.reason{
+  margin-top:23px;
+  padding:19px;
+  border-left:2px solid var(--pink);
+  background:rgba(243,182,206,.035);
+  text-align:left;
+}
+
+.reason h3{
+  margin-bottom:12px;
+  font-family:var(--pixel);
+  font-size:.52rem;
+  color:var(--pink);
+}
+
+.reason p{
+  color:rgba(255,255,255,.7);
+  font-size:.82rem;
+  line-height:1.75;
+}
+
+.reason p + p{
+  margin-top:13px;
+}
 
 /* BUTTONS */
-.back, .next{
-  position:relative;margin-top:25px;padding:13px 20px;border:0;background:transparent;
-  color:rgba(255,255,255,.62);cursor:pointer;font-family:var(--pixel);font-size:.46rem;transition:.3s;
+.back,.next{
+  position:relative;
+  margin-top:25px;
+  padding:13px 20px;
+  border:0;
+  background:transparent;
+  color:rgba(255,255,255,.62);
+  cursor:pointer;
+  font-family:var(--pixel);
+  font-size:.46rem;
+  transition:.3s;
 }
-.back::before,.back::after,.next::before,.next::after{
-  content:"";position:absolute;width:9px;height:9px;border-color:rgba(243,182,206,.6);transition:.3s;
+
+.back::before,.back::after,
+.next::before,.next::after{
+  content:"";
+  position:absolute;
+  width:9px;
+  height:9px;
+  border-color:rgba(243,182,206,.6);
+  transition:.3s;
 }
-.back::before,.next::before{top:0;left:0;border-top:2px solid;border-left:2px solid;}
-.back::after,.next::after{right:0;bottom:0;border-right:2px solid;border-bottom:2px solid;}
-.back:hover,.next:hover{color:white;transform:translateY(-2px);}
+
+.back::before,.next::before{
+  top:0;
+  left:0;
+  border-top:2px solid;
+  border-left:2px solid;
+}
+
+.back::after,.next::after{
+  right:0;
+  bottom:0;
+  border-right:2px solid;
+  border-bottom:2px solid;
+}
+
+.back:hover,.next:hover{
+  color:white;
+  transform:translateY(-2px);
+}
 
 /* VINYL */
-.music-card{padding:28px 18px;border:1px solid rgba(243,182,206,.18);background:rgba(255,255,255,.045);}
-.vinyl-wrap{position:relative;width:205px;height:205px;margin:auto auto 22px;cursor:pointer;}
+.music-card{
+  padding:28px 18px;
+  border:1px solid rgba(243,182,206,.18);
+  background:rgba(255,255,255,.045);
+}
+
+.vinyl-wrap{
+  position:relative;
+  width:205px;
+  height:205px;
+  margin:auto auto 22px;
+  cursor:pointer;
+}
+
 .click-me{
-  position:absolute;top:-6px;right:-18px;z-index:5;
-  font-family:var(--pixel);font-size:.55rem;color:var(--pink);
-  opacity:.55;transform:rotate(-14deg);pointer-events:none;
-  text-shadow:2px 2px 0 rgba(0,0,0,.3);letter-spacing:.05em;
+  position:absolute;
+  top:-6px;
+  right:-18px;
+  z-index:5;
+  font-family:var(--pixel);
+  font-size:.55rem;
+  color:var(--pink);
+  opacity:.55;
+  transform:rotate(-14deg);
+  pointer-events:none;
+  text-shadow:2px 2px 0 rgba(0,0,0,.3);
+  letter-spacing:.05em;
 }
+
 .vinyl{
-  width:100%;height:100%;display:grid;place-items:center;border-radius:50%;
+  width:100%;
+  height:100%;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
   background:repeating-radial-gradient(circle,#050505 0,#050505 3px,#191919 4px,#070707 6px);
-  box-shadow:0 20px 50px rgba(0,0,0,.6);animation:spin 4s linear infinite;animation-play-state:paused;
+  box-shadow:0 20px 50px rgba(0,0,0,.6);
+  animation:spin 4s linear infinite;
+  animation-play-state:paused;
 }
-.vinyl.playing{animation-play-state:running;}
+
+.vinyl.playing{
+  animation-play-state:running;
+}
+
 .vinyl::before{
-  content:"";width:78px;height:78px;border-radius:50%;
+  content:"";
+  width:78px;
+  height:78px;
+  border-radius:50%;
   background:radial-gradient(circle,#f7c1d7 0 46%,#b65f83 47% 100%);
   box-shadow:0 0 0 6px #101010;
 }
-.vinyl::after{content:"♡";position:absolute;font-size:1.8rem;}
-@keyframes spin{to{transform:rotate(360deg);}}
-.song-name{font-family:var(--serif);font-size:2.3rem;}
-.artist{color:var(--pink);font-size:.8rem;}
+
+.vinyl::after{
+  content:"♡";
+  position:absolute;
+  font-size:1.8rem;
+}
+
+@keyframes spin{
+  to{transform:rotate(360deg);}
+}
+
+.song-name{
+  font-family:var(--serif);
+  font-size:2.3rem;
+}
+
+.artist{
+  color:var(--pink);
+  font-size:.8rem;
+}
 
 /* CAMCORDER */
 .camera{
-  position:relative;width:min(95vw,650px);margin:20px auto;padding:18px 16px 20px;
-  border:3px solid #6e6a63;border-radius:18px 13px 23px 15px;
+  position:relative;
+  width:min(95vw,650px);
+  margin:20px auto;
+  padding:18px 16px 20px;
+  border:3px solid #6e6a63;
+  border-radius:18px 13px 23px 15px;
   background:linear-gradient(145deg,#76716a,#3e3b37 42%,#1d1c1a);
-  box-shadow:0 25px 60px rgba(0,0,0,.7), inset 0 2px rgba(255,255,255,.18), inset 0 -5px rgba(0,0,0,.35);
+  box-shadow:0 25px 60px rgba(0,0,0,.7),inset 0 2px rgba(255,255,255,.18),inset 0 -5px rgba(0,0,0,.35);
   transform:rotate(-.7deg);
 }
+
 .camera::before{
-  content:"";position:absolute;top:-23px;left:48px;width:100px;height:29px;
-  border:3px solid #56534e;border-bottom:0;border-radius:10px 10px 0 0;
-  background:linear-gradient(#484540,#252421);box-shadow:inset 0 2px rgba(255,255,255,.1);
+  content:"";
+  position:absolute;
+  top:-23px;
+  left:48px;
+  width:100px;
+  height:29px;
+  border:3px solid #56534e;
+  border-bottom:0;
+  border-radius:10px 10px 0 0;
+  background:linear-gradient(#484540,#252421);
+  box-shadow:inset 0 2px rgba(255,255,255,.1);
 }
+
 .camera::after{
-  content:"";position:absolute;top:-10px;right:45px;width:54px;height:35px;
-  border:2px solid #57544f;border-radius:6px;background:#272623;
+  content:"";
+  position:absolute;
+  top:-10px;
+  right:45px;
+  width:54px;
+  height:35px;
+  border:2px solid #57544f;
+  border-radius:6px;
+  background:#272623;
 }
+
 .camera-button{
-  position:absolute;top:20px;width:13px;height:13px;border-radius:50%;background:#151412;
-  border:2px solid #77736c;box-shadow:inset 0 2px rgba(255,255,255,.1);
+  position:absolute;
+  top:20px;
+  width:13px;
+  height:13px;
+  border-radius:50%;
+  background:#151412;
+  border:2px solid #77736c;
+  box-shadow:inset 0 2px rgba(255,255,255,.1);
 }
-.cb1{right:92px;} .cb2{right:68px;} .cb3{right:44px;}
+
+.cb1{right:92px;}
+.cb2{right:68px;}
+.cb3{right:44px;}
+
 .camera-screen{
-  position:relative;aspect-ratio:16/9;overflow:hidden;background:#030303;
-  border:9px solid #11100f;box-shadow:inset 0 0 35px rgba(0,0,0,.9), 0 3px 0 rgba(255,255,255,.04);
+  position:relative;
+  aspect-ratio:16/9;
+  overflow:hidden;
+  background:#030303;
+  border:9px solid #11100f;
+  box-shadow:inset 0 0 35px rgba(0,0,0,.9),0 3px 0 rgba(255,255,255,.04);
 }
+
 .camera-screen::before{
-  content:"";position:absolute;inset:0;z-index:8;pointer-events:none;
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:8;
+  pointer-events:none;
   background:
-    radial-gradient(ellipse, transparent 50%, rgba(0,0,0,.45)),
-    linear-gradient(105deg, rgba(255,255,255,.12), transparent 18%, transparent 80%, rgba(255,255,255,.03));
+    radial-gradient(ellipse,transparent 50%,rgba(0,0,0,.45)),
+    linear-gradient(105deg,rgba(255,255,255,.12),transparent 18%,transparent 80%,rgba(255,255,255,.03));
 }
+
 .camera-screen::after{
-  content:"";position:absolute;inset:0;z-index:9;pointer-events:none;
-  background:repeating-linear-gradient(0deg, rgba(255,255,255,.055), rgba(255,255,255,.055) 1px, transparent 1px, transparent 4px);
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:9;
+  pointer-events:none;
+  background:repeating-linear-gradient(0deg,rgba(255,255,255,.055),rgba(255,255,255,.055) 1px,transparent 1px,transparent 4px);
   mix-blend-mode:screen;
 }
-.video-frame{width:100%;height:100%;border:0;}
+
+.video-frame{
+  width:100%;
+  height:100%;
+  border:0;
+}
+
 .video-cover{
-  position:absolute;inset:0;z-index:7;display:grid;place-items:center;cursor:pointer;
+  position:absolute;
+  inset:0;
+  z-index:7;
+  display:grid;
+  place-items:center;
+  cursor:pointer;
   background:
-    linear-gradient(rgba(0,0,0,.2), rgba(0,0,0,.65)),
+    linear-gradient(rgba(0,0,0,.2),rgba(0,0,0,.65)),
     url("https://img.youtube.com/vi/lg5prG_4tpA/maxresdefault.jpg") center / cover;
   filter:saturate(.65) contrast(1.1);
 }
+
 .play-button{
-  width:70px;height:70px;display:grid;place-items:center;padding-left:4px;border-radius:50%;
-  background:rgba(243,182,206,.9);color:#4a2938;box-shadow:0 8px 30px rgba(0,0,0,.5);transition:.25s;
+  width:70px;
+  height:70px;
+  display:grid;
+  place-items:center;
+  padding-left:4px;
+  border-radius:50%;
+  background:rgba(243,182,206,.9);
+  color:#4a2938;
+  box-shadow:0 8px 30px rgba(0,0,0,.5);
+  transition:.25s;
 }
-.video-cover:hover .play-button{transform:scale(1.1);}
-.viewfinder{position:absolute;z-index:10;inset:13px;pointer-events:none;border:1px solid rgba(255,255,255,.1);}
+
+.video-cover:hover .play-button{
+  transform:scale(1.1);
+}
+
+.viewfinder{
+  position:absolute;
+  z-index:10;
+  inset:13px;
+  pointer-events:none;
+  border:1px solid rgba(255,255,255,.1);
+}
+
 .viewfinder::before{
-  content:"AUG 26  •  00:00:00";position:absolute;top:8px;left:8px;
-  font-family:var(--pixel);font-size:.34rem;color:rgba(255,255,255,.7);
+  content:"AUG 26  •  00:00:00";
+  position:absolute;
+  top:8px;
+  left:8px;
+  font-family:var(--pixel);
+  font-size:.34rem;
+  color:rgba(255,255,255,.7);
 }
+
 .viewfinder::after{
-  content:"WIDE  •  F2.8";position:absolute;right:8px;bottom:8px;
-  font-family:var(--pixel);font-size:.32rem;color:rgba(255,255,255,.55);
+  content:"WIDE  •  F2.8";
+  position:absolute;
+  right:8px;
+  bottom:8px;
+  font-family:var(--pixel);
+  font-size:.32rem;
+  color:rgba(255,255,255,.55);
 }
+
 .camera-top,.camera-bottom{
-  display:flex;justify-content:space-between;align-items:center;padding:0 5px;
-  font-family:var(--pixel);font-size:.34rem;color:#aaa;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:0 5px;
+  font-family:var(--pixel);
+  font-size:.34rem;
+  color:#aaa;
 }
+
 .camera-top{margin-bottom:12px;}
 .camera-bottom{margin-top:13px;}
+
 .rec{color:#ff7272;}
+
 .rec::before{
-  content:"";display:inline-block;width:7px;height:7px;margin-right:6px;
-  background:#ff5f5f;animation:blink 1s steps(2) infinite;
+  content:"";
+  display:inline-block;
+  width:7px;
+  height:7px;
+  margin-right:6px;
+  background:#ff5f5f;
+  animation:blink 1s steps(2) infinite;
 }
-@keyframes blink{50%{opacity:.2;}}
+
+@keyframes blink{
+  50%{opacity:.2;}
+}
+
 .camera-lens{
-  width:40px;height:40px;border-radius:50%;border:3px solid #777;
-  background:radial-gradient(circle at 35% 30%, #a6b4c7, #303740 40%, #08090a 72%);
-  box-shadow:inset 0 0 0 5px #191719, 0 2px 0 rgba(255,255,255,.1);
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  border:3px solid #777;
+  background:radial-gradient(circle at 35% 30%,#a6b4c7,#303740 40%,#08090a 72%);
+  box-shadow:inset 0 0 0 5px #191719,0 2px 0 rgba(255,255,255,.1);
 }
 
 /* FINAL PAGE */
 .final-title{
-  font-family:var(--pixel);font-size:clamp(1.65rem,7.5vw,4rem);line-height:1.8;
+  font-family:var(--pixel);
+  font-size:clamp(1.65rem,7.5vw,4rem);
+  line-height:1.8;
   text-shadow:4px 4px 0 rgba(243,182,206,.12);
 }
+
 .final-title span{color:var(--pink);}
-.wish{margin-top:8px;font-family:var(--script);color:var(--pink);font-size:2.8rem;}
-.wish-btn{
-  margin-top:22px;padding:15px 25px;border:2px solid rgba(243,182,206,.45);
-  background:rgba(243,182,206,.08);color:white;cursor:pointer;font-family:var(--pixel);
-  font-size:.46rem;box-shadow:4px 4px 0 rgba(243,182,206,.12);transition:.3s;
+
+.wish{
+  margin-top:8px;
+  font-family:var(--script);
+  color:var(--pink);
+  font-size:2.8rem;
 }
-.wish-btn:hover{transform:translateY(-3px);background:rgba(243,182,206,.17);}
-.wish-btn.hidden{display:none;}
+
+.wish-btn{
+  margin-top:22px;
+  padding:15px 25px;
+  border:2px solid rgba(243,182,206,.45);
+  background:rgba(243,182,206,.08);
+  color:white;
+  cursor:pointer;
+  font-family:var(--pixel);
+  font-size:.46rem;
+  box-shadow:4px 4px 0 rgba(243,182,206,.12);
+  transition:.3s;
+}
+
+.wish-btn:hover{
+  transform:translateY(-3px);
+  background:rgba(243,182,206,.17);
+}
+
+.wish-btn.hidden{
+  display:none;
+}
 
 /* TAP TO REVEAL */
-.reveal-prompt{display:none;margin-top:28px;animation:promptIn .7s ease both;}
-.reveal-prompt.show{display:block;}
+.reveal-prompt{
+  display:none;
+  margin-top:28px;
+  animation:promptIn .7s ease both;
+}
+
+.reveal-prompt.show{
+  display:block;
+}
+
 .reveal-prompt button{
-  position:relative;padding:15px 22px;background:rgba(243,182,206,.07);
-  color:rgba(255,255,255,.75);border:1px solid rgba(243,182,206,.45);
-  font-family:var(--pixel);font-size:.43rem;cursor:pointer;
+  position:relative;
+  padding:15px 22px;
+  background:rgba(243,182,206,.07);
+  color:rgba(255,255,255,.75);
+  border:1px solid rgba(243,182,206,.45);
+  font-family:var(--pixel);
+  font-size:.43rem;
+  cursor:pointer;
   animation:promptPulse 1.8s ease-in-out infinite;
 }
-@keyframes promptIn{from{opacity:0;transform:translateY(15px);}to{opacity:1;transform:translateY(0);}}
-@keyframes promptPulse{0%,100%{box-shadow:0 0 0 rgba(243,182,206,0);}50%{box-shadow:0 0 25px rgba(243,182,206,.18);}}
+
+@keyframes promptIn{
+  from{opacity:0;transform:translateY(15px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+@keyframes promptPulse{
+  0%,100%{box-shadow:0 0 0 rgba(243,182,206,0);}
+  50%{box-shadow:0 0 25px rgba(243,182,206,.18);}
+}
 
 /* POLAROID */
-.surprise{display:none;margin-top:22px;animation:reveal 1s ease both;}
-.surprise.show{display:block;}
-@keyframes reveal{from{opacity:0;transform:translateY(20px) scale(.95);}to{opacity:1;transform:translateY(0) scale(1);}}
-.peony-garden{position:relative;width:min(95vw,400px);margin:20px auto 0;padding:30px 10px;}
-.peony{position:absolute;font-size:2.7rem;filter:drop-shadow(0 5px 8px rgba(0,0,0,.25));animation:flowerFloat 4s ease-in-out infinite;}
-.peony:nth-child(1){left:0;top:8px;transform:rotate(-15deg);}
-.peony:nth-child(2){right:0;top:8px;transform:rotate(15deg);animation-delay:.5s;}
-.peony:nth-child(3){left:4px;bottom:8px;transform:rotate(10deg);animation-delay:1s;}
-.peony:nth-child(4){right:4px;bottom:8px;transform:rotate(-10deg);animation-delay:1.5s;}
-.peony:nth-child(5){left:28px;top:78px;font-size:2rem;animation-delay:.8s;}
-.peony:nth-child(6){right:27px;top:78px;font-size:2rem;animation-delay:1.2s;}
-@keyframes flowerFloat{0%,100%{margin-top:0;}50%{margin-top:-7px;}}
+.surprise{
+  display:none;
+  margin-top:22px;
+  animation:reveal 1s ease both;
+}
+
+.surprise.show{
+  display:block;
+}
+
+@keyframes reveal{
+  from{opacity:0;transform:translateY(20px) scale(.95);}
+  to{opacity:1;transform:translateY(0) scale(1);}
+}
+
+.peony-garden{
+  position:relative;
+  width:min(95vw,400px);
+  margin:20px auto 0;
+  padding:30px 10px;
+}
+
+.peony{
+  position:absolute;
+  font-size:2.7rem;
+  filter:drop-shadow(0 5px 8px rgba(0,0,0,.25));
+  animation:flowerFloat 4s ease-in-out infinite;
+}
+
+.peony:nth-child(1){
+  left:0;
+  top:8px;
+  transform:rotate(-15deg);
+}
+
+.peony:nth-child(2){
+  right:0;
+  top:8px;
+  transform:rotate(15deg);
+  animation-delay:.5s;
+}
+
+.peony:nth-child(3){
+  left:4px;
+  bottom:8px;
+  transform:rotate(10deg);
+  animation-delay:1s;
+}
+
+.peony:nth-child(4){
+  right:4px;
+  bottom:8px;
+  transform:rotate(-10deg);
+  animation-delay:1.5s;
+}
+
+.peony:nth-child(5){
+  left:28px;
+  top:78px;
+  font-size:2rem;
+  animation-delay:.8s;
+}
+
+.peony:nth-child(6){
+  right:27px;
+  top:78px;
+  font-size:2rem;
+  animation-delay:1.2s;
+}
+
+@keyframes flowerFloat{
+  0%,100%{margin-top:0;}
+  50%{margin-top:-7px;}
+}
+
 .polaroid{
-  position:relative;z-index:4;width:min(76vw,285px);margin:0 auto;padding:12px 12px 24px;
-  background:#fff;color:#403039;box-shadow:8px 12px 0 rgba(243,182,206,.13);
-  transform:rotate(-2deg);cursor:pointer;transition:.4s;
+  position:relative;
+  z-index:4;
+  width:min(76vw,285px);
+  margin:0 auto;
+  padding:12px 12px 24px;
+  background:#fff;
+  color:#403039;
+  box-shadow:8px 12px 0 rgba(243,182,206,.13);
+  transform:rotate(-2deg);
+  cursor:pointer;
+  transition:.4s;
 }
-.polaroid:hover{transform:rotate(1deg) translateY(-5px);}
+
+.polaroid:hover{
+  transform:rotate(1deg) translateY(-5px);
+}
+
 .polaroid-photo{
-  position:relative;aspect-ratio:1/1;overflow:hidden;display:grid;place-items:center;
-  background:linear-gradient(135deg,#f2b6ce,#a897c8);font-size:4rem;
+  position:relative;
+  aspect-ratio:1/1;
+  overflow:hidden;
+  display:grid;
+  place-items:center;
+  background:linear-gradient(135deg,#f2b6ce,#a897c8);
+  font-size:4rem;
 }
-.polaroid-photo img{width:100%;height:100%;object-fit:cover;display:block;}
-.polaroid-photo.img-fallback img{display:none;}
-.polaroid-photo.img-fallback::before{content:"🤍";position:static;font-size:3.5rem;opacity:1;z-index:1;}
-.polaroid-photo.img-fallback::after{content:"";display:none;}
-.polaroid-photo::before,.polaroid-photo::after{content:"🌸";position:absolute;font-size:2.5rem;opacity:.85;z-index:2;}
-.polaroid-photo::before{top:15px;left:15px;}
-.polaroid-photo::after{right:15px;bottom:15px;}
-.polaroid-caption{margin-top:12px;padding:0 8px;font-family:var(--script);font-size:1.5rem;line-height:1.35;}
-.polaroid-hint{margin-top:18px;font-family:var(--pixel);font-size:.4rem;color:rgba(255,255,255,.38);}
+
+.polaroid-photo img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+
+.polaroid-photo.img-fallback img{
+  display:none;
+}
+
+.polaroid-photo.img-fallback::before{
+  content:"🤍";
+  position:static;
+  font-size:3.5rem;
+  opacity:1;
+  z-index:1;
+}
+
+.polaroid-photo.img-fallback::after{
+  content:"";
+  display:none;
+}
+
+.polaroid-photo::before,
+.polaroid-photo::after{
+  content:"🌸";
+  position:absolute;
+  font-size:2.5rem;
+  opacity:.85;
+  z-index:2;
+}
+
+.polaroid-photo::before{
+  top:15px;
+  left:15px;
+}
+
+.polaroid-photo::after{
+  right:15px;
+  bottom:15px;
+}
+
+.polaroid-caption{
+  margin-top:12px;
+  padding:0 8px;
+  font-family:var(--script);
+  font-size:1.5rem;
+  line-height:1.35;
+}
+
+.polaroid-hint{
+  margin-top:18px;
+  font-family:var(--pixel);
+  font-size:.4rem;
+  color:rgba(255,255,255,.38);
+}
 
 /* FIREWORK CANVAS */
-#fireworks{position:fixed;inset:0;z-index:45;pointer-events:none;}
+#fireworks{
+  position:fixed;
+  inset:0;
+  z-index:45;
+  pointer-events:none;
+}
 
 /* HEARTS */
 .pixel-heart{
-  position:fixed;bottom:-20px;z-index:50;color:var(--pink);font-size:15px;
-  pointer-events:none;animation:heartFloat 4s steps(18) forwards;
+  position:fixed;
+  bottom:-20px;
+  z-index:50;
+  color:var(--pink);
+  font-size:15px;
+  pointer-events:none;
+  animation:heartFloat 4s steps(18) forwards;
 }
+
 @keyframes heartFloat{
-  from{opacity:0;transform:translateY(0);}
+  from{
+    opacity:0;
+    transform:translateY(0);
+  }
+
   15%{opacity:.8;}
-  to{opacity:0;transform:translateY(-75vh);}
+
+  to{
+    opacity:0;
+    transform:translateY(-75vh);
+  }
 }
 
 /* REDUCED MOTION */
 @media (prefers-reduced-motion: reduce){
-  *{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;scroll-behavior:auto !important;}
-  .pixel-star,.bg-firework,.vinyl,.peony,.rec::before{animation:none !important;}
-  html{scroll-behavior:auto;}
+  *{
+    animation-duration:.001ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.001ms !important;
+    scroll-behavior:auto !important;
+  }
+
+  .pixel-star,
+  .bg-firework,
+  .vinyl,
+  .peony,
+  .rec::before{
+    animation:none !important;
+  }
+
+  html{
+    scroll-behavior:auto;
+  }
 }
 
 /* FOCUS STATES */
@@ -435,18 +1193,47 @@ body{
 
 /* MOBILE */
 @media(max-width:430px){
-  .page{padding:24px 14px 45px;}
-  .envelope{width:270px;height:175px;}
-  .envelope-stage{height:300px;}
-  .letter-card{width:220px;}
-  .paper{padding:30px 20px;}
-  .letter-text{font-size:.98rem;}
-  .vinyl-wrap{width:180px;height:180px;}
-  .camera{padding:14px 11px 17px;}
-  .peony{font-size:2.2rem;}
+  .page{
+    padding:24px 14px 45px;
+  }
+
+  .envelope{
+    width:270px;
+    height:175px;
+  }
+
+  .envelope-stage{
+    height:300px;
+  }
+
+  .letter-card{
+    width:220px;
+  }
+
+  .paper{
+    padding:30px 20px;
+  }
+
+  .letter-text{
+    font-size:.98rem;
+  }
+
+  .vinyl-wrap{
+    width:180px;
+    height:180px;
+  }
+
+  .camera{
+    padding:14px 11px 17px;
+  }
+
+  .peony{
+    font-size:2.2rem;
+  }
 }
 </style>
 </head>
+
 <body>
 
 <div id="sky"></div>
@@ -458,30 +1245,57 @@ body{
 <!-- PAGE 1 -->
 <section class="page active" id="opening">
 <div class="container">
-  <div class="opening-small">for you,</div>
-  <h1 class="opening-title">HAPPY<br>BIRTHDAY<span>ISHI</span></h1>
-  <p class="opening-copy">I made something for you.<br>Open it when you're ready.</p>
 
-  <div class="envelope-stage" onclick="openEnvelope()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openEnvelope();}" role="button" tabindex="0" aria-label="Open the envelope">
+  <div class="opening-small">for you,</div>
+
+  <h1 class="opening-title">
+    HAPPY<br>
+    BIRTHDAY<span>ISHI</span>
+  </h1>
+
+  <p class="opening-copy">
+    I made something for you.<br>
+    Open it when you're ready.
+  </p>
+
+  <div
+    class="envelope-stage"
+    onclick="openEnvelope()"
+    onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openEnvelope();}"
+    role="button"
+    tabindex="0"
+    aria-label="Open the envelope"
+  >
+
     <div class="envelope-shadow"></div>
+
     <div class="envelope" id="envelope">
+
       <div class="letter-card">
         <div class="mini">For Ishi ♡</div>
         <small>there's something waiting for you inside.</small>
       </div>
+
       <div class="envelope-body"></div>
       <div class="flap"></div>
       <div class="envelope-front"></div>
+
       <div class="seal">♡</div>
+
     </div>
+
     <div class="open-text">TAP THE ENVELOPE</div>
+
   </div>
+
 </div>
 </section>
+
 
 <!-- PAGE 2 — GIFTS -->
 <section class="page" id="gifts">
 <div class="container">
+
   <div class="gift-intro">
     <div class="script">a little something</div>
     <div class="pixel-label">─── YOUR GIFTS ───</div>
@@ -489,115 +1303,263 @@ body{
   </div>
 
   <div class="gifts">
+
     <button class="gift" onclick="showPage('message')">
       <div class="gift-icon">💌</div>
+
       <div>
         <h3>A Message</h3>
         <p>something I wanted you to read today</p>
       </div>
+
       <div class="gift-arrow">›</div>
     </button>
 
+
     <button class="gift" onclick="showPage('song')">
       <div class="gift-icon">🎵</div>
+
       <div>
         <h3>A Song</h3>
         <p>one that somehow reminds me of you</p>
       </div>
+
       <div class="gift-arrow">›</div>
     </button>
 
+
     <button class="gift" onclick="showPage('clip')">
       <div class="gift-icon">🎬</div>
+
       <div>
         <h3>A Little Something</h3>
         <p>a scene that reminded me of something about us</p>
       </div>
+
       <div class="gift-arrow">›</div>
     </button>
+
   </div>
+
 </div>
 </section>
+
 
 <!-- PAGE 3 — MESSAGE -->
 <section class="page" id="message">
 <div class="container">
+
   <div class="content-box">
-    <div class="paper-stamp">FOR<br>ISHI</div>
+
+    <div class="paper-stamp">
+      FOR<br>
+      ISHI
+    </div>
 
     <div class="paper">
+
       <div class="paper-title">For You, Ishi</div>
 
       <div class="message-music">
-        <div class="music-label">♫ GODSPEED — FRANK OCEAN</div>
-        <iframe id="godspeedPlayer" class="spotify-player" src="" height="152"
+
+        <div class="music-label">
+          ♫ GODSPEED — FRANK OCEAN
+        </div>
+
+        <iframe
+          id="godspeedPlayer"
+          class="spotify-player"
+          src=""
+          height="152"
           allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-          loading="eager"></iframe>
+          loading="eager">
+        </iframe>
+
       </div>
+
 
       <div class="letter-text">
+
         <p>happy birthday, ishi 🤍</p>
-        <p>i hope ure having a good day today, and i hope u get to enjoy it kahit simple lang. i know things are probably a lot different for u now, especially with everything going on there, but i hope kahit for today, makapagpahinga ka muna from everything and just enjoy ur day.</p>
-        <p>i hope this new year of ur life brings u a lot of good things. i hope u get to experience more things that make u genuinely happy, meet people who bring good energy into ur life, and have more days where u feel proud of urself and at peace. i hope things slowly work out for u there and that u eventually feel more comfortable with everything ure starting there.</p>
-        <p>i know u have a lot of things u wanna do and a lot of things ure working towards, and i really hope u get to achieve them one by one. especially with ur career and ur appraiser board exam. ik how much uve been working for the things u want, and i really hope all of that effort pays off. i genuinely believe u can do it, even on the days na baka di mo rin feel na kaya mo.</p>
-        <p>pls take care of urself din while ure chasing all of those things. rest whenever u can, and dont pressure urself too much kapag may mga bagay na di agad nagwwork out the way u want them to. u dont have to figure everything out agad, u can take ur time.</p>
-        <p>and honestly, i really hope ure happy. not just today bcs it's ur birthday, but in general. i hope ure surrounded by people who make u feel loved and appreciated, and i hope u get to build the kind of life u've always wanted for urself.</p>
-        <p>i know it's been a while since we last talked, but i still remember a lot of the little things u used to tell me about the things u wanted for urself, the plans u had, and the kind of future u wanted. so even from afar, i genuinely hope those things happen for u.</p>
-        <p>i hope u really enjoy ur day today, okay? u deserve to.</p>
+
+        <p>
+          i hope ure having a good day today, and i hope u get to enjoy it kahit simple lang.
+          i know things are probably a lot different for u now, especially with everything going on there,
+          but i hope kahit for today, makapagpahinga ka muna from everything and just enjoy ur day.
+        </p>
+
+        <p>
+          i hope this new year of ur life brings u a lot of good things.
+          i hope u get to experience more things that make u genuinely happy,
+          meet people who bring good energy into ur life, and have more days where u feel proud of urself and at peace.
+          i hope things slowly work out for u there and that u eventually feel more comfortable with everything ure starting there.
+        </p>
+
+        <p>
+          i know u have a lot of things u wanna do and a lot of things ure working towards,
+          and i really hope u get to achieve them one by one.
+          especially with ur career and ur appraiser board exam.
+          ik how much uve been working for the things u want,
+          and i really hope all of that effort pays off.
+          i genuinely believe u can do it, even on the days na baka di mo rin feel na kaya mo.
+        </p>
+
+        <p>
+          pls take care of urself din while ure chasing all of those things.
+          rest whenever u can, and dont pressure urself too much kapag may mga bagay na di agad nagwwork out the way u want them to.
+          u dont have to figure everything out agad, u can take ur time.
+        </p>
+
+        <p>
+          and honestly, i really hope ure happy.
+          not just today bcs it's ur birthday, but in general.
+          i hope ure surrounded by people who make u feel loved and appreciated,
+          and i hope u get to build the kind of life u've always wanted for urself.
+        </p>
+
+        <p>
+          i know it's been a while since we last talked,
+          but i still remember a lot of the little things u used to tell me about the things u wanted for urself,
+          the plans u had, and the kind of future u wanted.
+          so even from afar, i genuinely hope those things happen for u.
+        </p>
+
+        <p>
+          i hope u really enjoy ur day today, okay?
+          u deserve to.
+        </p>
+
       </div>
+
     </div>
+
   </div>
 
-  <button class="back" onclick="showPage('gifts')">← BACK TO GIFTS</button>
+  <button class="back" onclick="showPage('gifts')">
+    ← BACK TO GIFTS
+  </button>
+
 </div>
 </section>
+
 
 <!-- PAGE 4 — SONG -->
 <section class="page" id="song">
 <div class="container">
+
   <div class="script">one that reminds me of you</div>
   <div class="pixel-label">─── TRACK 01 ───</div>
+
   <h2 class="section-title">A Song</h2>
 
   <div class="music-card">
-    <div class="vinyl-wrap" onclick="playSong()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();playSong();}" role="button" tabindex="0" aria-label="Play the song">
+
+    <div
+      class="vinyl-wrap"
+      onclick="playSong()"
+      onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();playSong();}"
+      role="button"
+      tabindex="0"
+      aria-label="Play the song"
+    >
+
       <div class="click-me">click me!</div>
+
       <div class="vinyl" id="vinyl"></div>
+
     </div>
 
-    <div class="song-name">For the First Time</div>
-    <div class="artist">Mac DeMarco</div>
+
+    <div class="song-name">
+      For the First Time
+    </div>
+
+    <div class="artist">
+      Mac DeMarco
+    </div>
+
 
     <div id="spotifySong" style="display:none;margin-top:20px;">
-      <iframe id="macdemarcoPlayer"
+
+      <iframe
+        id="macdemarcoPlayer"
         src=""
-        width="100%" height="152" frameborder="0"
+        width="100%"
+        height="152"
+        frameborder="0"
         allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-        loading="eager"></iframe>
+        loading="eager">
+      </iframe>
+
     </div>
+
 
     <div class="reason">
+
       <h3>WHY THIS ONE</h3>
-      <p>whenever i listen to it, i somehow think of u. not bcs the lyrics perfectly describe us or everything that happened between us, but because of the feeling it gives me. there's just something about the way this song sounds that takes me back to when i first started falling for u, when everything about u felt so new to me. the way i'd get excited just to talk to u, the little things u'd do that i'd remember for no reason, the feeling of slowly realizing that somehow, out of all the people i could've met, i was starting to care about u more and more.</p>
-      <p>i think that's what i associate with this song the most. not the ending, not the difficult parts, not even the things that happened between us. i think about the beginning. the version of me who was slowly getting to know u and didn't even realize yet how much u were going to mean to me.</p>
-      <p>and even after everything we've been through, that feeling never really became something i could separate from u. when i hear this song, i don't immediately think about what went wrong or what we lost. i think about u. i think about how it felt to meet u again, to get to know u, to fall for u, and to eventually realize that i wanted u to be the person i got to experience life with.</p>
-      <p>maybe that's why i chose this song. because some songs remind u of a certain moment, but this one reminds me of a feeling and that feeling will always have a little bit of u in it.</p>
-      <p>because that's what i'll remember when i hear it. not just that i loved u, but what it felt like to love u for the first time.</p>
+
+      <p>
+        whenever i listen to it, i somehow think of u.
+        not bcs the lyrics perfectly describe us or everything that happened between us,
+        but because of the feeling it gives me.
+        there's just something about the way this song sounds that takes me back to when i first started falling for u,
+        when everything about u felt so new to me.
+        the way i'd get excited just to talk to u, the little things u'd do that i'd remember for no reason,
+        the feeling of slowly realizing that somehow, out of all the people i could've met,
+        i was starting to care about u more and more.
+      </p>
+
+      <p>
+        i think that's what i associate with this song the most.
+        not the ending, not the difficult parts, not even the things that happened between us.
+        i think about the beginning.
+        the version of me who was slowly getting to know u and didn't even realize yet how much u were going to mean to me.
+      </p>
+
+      <p>
+        and even after everything we've been through,
+        that feeling never really became something i could separate from u.
+        when i hear this song, i don't immediately think about what went wrong or what we lost.
+        i think about u.
+        i think about how it felt to meet u again, to get to know u, to fall for u,
+        and to eventually realize that i wanted u to be the person i got to experience life with.
+      </p>
+
+      <p>
+        maybe that's why i chose this song.
+        because some songs remind u of a certain moment,
+        but this one reminds me of a feeling and that feeling will always have a little bit of u in it.
+      </p>
+
+      <p>
+        because that's what i'll remember when i hear it.
+        not just that i loved u, but what it felt like to love u for the first time.
+      </p>
+
     </div>
+
   </div>
 
-  <button class="back" onclick="showPage('gifts')">← BACK TO GIFTS</button>
+  <button class="back" onclick="showPage('gifts')">
+    ← BACK TO GIFTS
+  </button>
+
 </div>
 </section>
+
 
 <!-- PAGE 5 — CLIP -->
 <section class="page" id="clip">
 <div class="container">
+
   <div class="script">something I wanted you to see</div>
   <div class="pixel-label">─── A SHORT CLIP ───</div>
+
   <h2 class="section-title">A Little Something</h2>
 
+
   <div class="camera">
+
     <div class="camera-button cb1"></div>
     <div class="camera-button cb2"></div>
     <div class="camera-button cb3"></div>
@@ -607,61 +1569,191 @@ body{
       <span class="rec">REC</span>
     </div>
 
+
     <div class="camera-screen">
-      <div class="video-cover" id="videoCover" onclick="playVideo()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();playVideo();}" role="button" tabindex="0" aria-label="Play the video">
+
+      <div
+        class="video-cover"
+        id="videoCover"
+        onclick="playVideo()"
+        onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();playVideo();}"
+        role="button"
+        tabindex="0"
+        aria-label="Play the video"
+      >
         <div class="play-button">▶</div>
       </div>
-      <iframe id="video" class="video-frame" src=""
-        title="YouTube video player" frameborder="0"
+
+      <iframe
+        id="video"
+        class="video-frame"
+        src=""
+        title="YouTube video player"
+        frameborder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        referrerpolicy="strict-origin-when-cross-origin"
+        allowfullscreen>
+      </iframe>
+
       <div class="viewfinder"></div>
+
     </div>
+
 
     <div class="camera-bottom">
+
       <span>AUG 26</span>
+
       <div class="camera-lens"></div>
+
       <span>PLAY</span>
+
     </div>
+
   </div>
+
 
   <div class="reason">
+
     <h3>WHY I RELATE TO THIS</h3>
-    <p>there's something about this scene that reminds me of us, especially the things u've always tried to tell me and about expressing what i feel, not just the things after an argument, but also how i really feel for u. tony already knew what he felt for his wife, he just didn't really know how to put all of it into words. and i think that's something i relate to more than i expected.</p>
-    <p>there were so many times when i knew exactly what i felt for u, but i didn't know how to explain it in a way that would actually reach u. i knew i loved u, i knew i wanted to understand u, i knew i wanted u to feel safe with me, but sometimes when it came time to actually express all of that, my words weren't enough or i didn't know what to say.</p>
-    <p>and i think that's also why this scene makes me think about everything i tried to show u. not because i think i knew everything or because i was always right, because i wasn't. i had so much to learn from u too. but i always wanted u to know that love isn't just about the good days or the moments when everything feels easy. sometimes it's about being vulnerable enough to say what u feel, being patient enough to listen, and being willing to understand each other even when neither of us knows exactly how to explain what's going on inside.</p>
-    <p>i hope somewhere along the way, even if i didn't always do it perfectly, i was able to leave something good with u. maybe something u'll carry into the way u love urself, the way u let people love u, and the way u communicate what u feel with the people who matter to u.</p>
-    <p>and i hope u know that i learned a lot from u too. u taught me that loving someone isn't just about wanting to be there for them. it's also about learning how they need to be loved, learning how to listen, learning when to speak, and learning when your own feelings need to be expressed too.</p>
-    <p>that's probably why this scene means more to me than just a guy writing a love letter for his wife. it reminds me that sometimes the hardest part of loving someone isn't knowing that u love them. it's finding the courage and the words to actually let them know.</p>
-    <p>and if there's anything i hope u take from everything i ever told u, i hope it's that u should never feel like u have to hide the things u feel just because they're difficult to explain or u're dfficult to understand. u deserve to be loved in the parts of u that are easy to understand and in the parts that take time to understand too.</p>
-    <p>i don't know how much of what i tried to show u will stay with u, but i hope at least some of it does. not because i want a part of me to stay in ur life, but because i genuinely want u to have a love that feels safe, honest, patient, and understood. whether that comes from someone else, from the people around u, or eventually from urself.</p>
-    <p>and maybe that's what i like most about this scene. tony didn't need someone to tell him what he felt. he already knew. he just needed someone to help him find the words. and sometimes, i think that's all we ever needed from each other too.</p>
+
+    <p>
+      there's something about this scene that reminds me of us,
+      especially the things u've always tried to tell me and about expressing what i feel,
+      not just the things after an argument, but also how i really feel for u.
+      tony already knew what he felt for his wife,
+      he just didn't really know how to put all of it into words.
+      and i think that's something i relate to more than i expected.
+    </p>
+
+    <p>
+      there were so many times when i knew exactly what i felt for u,
+      but i didn't know how to explain it in a way that would actually reach u.
+      i knew i loved u, i knew i wanted to understand u,
+      i knew i wanted u to feel safe with me,
+      but sometimes when it came time to actually express all of that,
+      my words weren't enough or i didn't know what to say.
+    </p>
+
+    <p>
+      and i think that's also why this scene makes me think about everything i tried to show u.
+      not because i think i knew everything or because i was always right,
+      because i wasn't.
+      i had so much to learn from u too.
+      but i always wanted u to know that love isn't just about the good days or the moments when everything feels easy.
+      sometimes it's about being vulnerable enough to say what u feel,
+      being patient enough to listen,
+      and being willing to understand each other even when neither of us knows exactly how to explain what's going on inside.
+    </p>
+
+    <p>
+      i hope somewhere along the way, even if i didn't always do it perfectly,
+      i was able to leave something good with u.
+      maybe something u'll carry into the way u love urself,
+      the way u let people love u,
+      and the way u communicate what u feel with the people who matter to u.
+    </p>
+
+    <p>
+      and i hope u know that i learned a lot from u too.
+      u taught me that loving someone isn't just about wanting to be there for them.
+      it's also about learning how they need to be loved,
+      learning how to listen,
+      learning when to speak,
+      and learning when your own feelings need to be expressed too.
+    </p>
+
+    <p>
+      that's probably why this scene means more to me than just a guy writing a love letter for his wife.
+      it reminds me that sometimes the hardest part of loving someone isn't knowing that u love them.
+      it's finding the courage and the words to actually let them know.
+    </p>
+
+    <p>
+      and if there's anything i hope u take from everything i ever told u,
+      i hope it's that u should never feel like u have to hide the things u feel
+      just because they're difficult to explain or u're dfficult to understand.
+      u deserve to be loved in the parts of u that are easy to understand
+      and in the parts that take time to understand too.
+    </p>
+
+    <p>
+      i don't know how much of what i tried to show u will stay with u,
+      but i hope at least some of it does.
+      not because i want a part of me to stay in ur life,
+      but because i genuinely want u to have a love that feels safe,
+      honest, patient, and understood.
+      whether that comes from someone else,
+      from the people around u,
+      or eventually from urself.
+    </p>
+
+    <p>
+      and maybe that's what i like most about this scene.
+      tony didn't need someone to tell him what he felt.
+      he already knew.
+      he just needed someone to help him find the words.
+      and sometimes, i think that's all we ever needed from each other too.
+    </p>
+
   </div>
 
-  <button class="back" onclick="showPage('gifts')">← BACK TO GIFTS</button>
+
+  <button class="back" onclick="showPage('gifts')">
+    ← BACK TO GIFTS
+  </button>
+
   <br>
-  <button class="next" onclick="showPage('final')">ONE LAST THING →</button>
+
+  <button class="next" onclick="showPage('final')">
+    ONE LAST THING →
+  </button>
+
 </div>
 </section>
+
 
 <!-- PAGE 6 — FINAL -->
 <section class="page" id="final">
 <div class="container">
+
   <div class="script">and finally...</div>
-  <div class="pixel-label">─── AUGUST 26 ───</div>
 
-  <h1 class="final-title">HAPPY<br>BIRTHDAY<span>, ISHI</span></h1>
+  <div class="pixel-label">
+    ─── AUGUST 26 ───
+  </div>
 
-  <div class="wish">make a wish.</div>
+  <h1 class="final-title">
+    HAPPY<br>
+    BIRTHDAY<span>, ISHI</span>
+  </h1>
 
-  <button class="wish-btn" id="wishButton" onclick="makeWish()">✦ MAKE A WISH ✦</button>
+  <div class="wish">
+    make a wish.
+  </div>
+
+  <button
+    class="wish-btn"
+    id="wishButton"
+    onclick="makeWish()"
+  >
+    ✦ MAKE A WISH ✦
+  </button>
+
 
   <div class="reveal-prompt" id="revealPrompt">
-    <button onclick="revealMessage()">♡ TAP TO SEE YOUR MESSAGE ♡</button>
+
+    <button onclick="revealMessage()">
+      ♡ TAP TO SEE YOUR MESSAGE ♡
+    </button>
+
   </div>
+
 
   <div class="surprise" id="surprise">
+
     <div class="peony-garden">
+
       <div class="peony">🌸</div>
       <div class="peony">🌸</div>
       <div class="peony">🌸</div>
@@ -669,424 +1761,1398 @@ body{
       <div class="peony">🌸</div>
       <div class="peony">🌸</div>
 
-      <div class="polaroid" onclick="openPolaroid()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openPolaroid();}" role="button" tabindex="0" aria-label="Tap to see the photo">
-        <div class="polaroid-photo"><img src="https://i.imgur.com/GSQUdDn.jpeg" alt="A photo the two of us share" loading="eager" onerror="this.parentElement.classList.add('img-fallback')"></div>
-        <div class="polaroid-caption">
-          no matter the distance or the time, i hope only good things keep finding you.
-          <br><br>
-          happy birthday, ishi 🤍
+
+      <div
+        class="polaroid"
+        onclick="openPolaroid()"
+        onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openPolaroid();}"
+        role="button"
+        tabindex="0"
+        aria-label="Tap to see the photo"
+      >
+
+        <div class="polaroid-photo">
+
+          <img
+            src="https://i.imgur.com/GSQUdDn.jpeg"
+            alt="A photo the two of us share"
+            loading="eager"
+            onerror="this.parentElement.classList.add('img-fallback')"
+          >
+
         </div>
+
+
+        <div class="polaroid-caption">
+
+          no matter the distance or the time,
+          i hope only good things keep finding you.
+
+          <br><br>
+
+          happy birthday, ishi 🤍
+
+        </div>
+
       </div>
+
     </div>
 
-    <div class="polaroid-hint">TAP THE POLAROID</div>
+
+    <div class="polaroid-hint">
+      TAP THE POLAROID
+    </div>
+
   </div>
+
 </div>
 </section>
 
 </div>
 
-<script>
-/* COLOR PALETTE — shared by background fireworks + canvas fireworks */
-const FW_COLORS = ["#f3b6ce","#ffd1e8","#d77fa5","#ffe9a8","#b8e3ff","#c9b6ff","#fff5b8","#ffffff","#ff9ecb"];
-function randomFwColor(){ return FW_COLORS[Math.floor(Math.random() * FW_COLORS.length)]; }
 
-/* STARS */
+<script>
+
+/* =========================================================
+   COLOR PALETTE
+========================================================= */
+
+const FW_COLORS = [
+  "#f3b6ce",
+  "#ffd1e8",
+  "#d77fa5",
+  "#ffe9a8",
+  "#b8e3ff",
+  "#c9b6ff",
+  "#fff5b8",
+  "#ffffff",
+  "#ff9ecb"
+];
+
+function randomFwColor(){
+  return FW_COLORS[
+    Math.floor(Math.random() * FW_COLORS.length)
+  ];
+}
+
+
+/* =========================================================
+   STARS
+========================================================= */
+
 const sky = document.getElementById("sky");
-for (let i = 0; i < 65; i++) {
+
+for(let i = 0; i < 65; i++){
+
   const star = document.createElement("div");
+
   star.className = "pixel-star";
-  star.style.left = Math.random() * 100 + "%";
-  star.style.top = Math.random() * 100 + "%";
-  star.style.animationDelay = Math.random() * 4 + "s";
+
+  star.style.left =
+    Math.random() * 100 + "%";
+
+  star.style.top =
+    Math.random() * 100 + "%";
+
+  star.style.animationDelay =
+    Math.random() * 4 + "s";
+
   sky.appendChild(star);
 }
 
-/* AMBIENT BACKGROUND FIREWORKS — randomized position, color, delay, so the sky reads as multicolor */
-for (let i = 0; i < 9; i++) {
+
+/* =========================================================
+   AMBIENT BACKGROUND FIREWORKS
+========================================================= */
+
+for(let i = 0; i < 9; i++){
+
   const fw = document.createElement("div");
+
   fw.className = "bg-firework";
-  fw.style.left = Math.random() * 100 + "%";
-  fw.style.top = Math.random() * 42 + "%";
-  fw.style.setProperty("--fw-color", randomFwColor());
-  fw.style.animationDelay = Math.random() * 4 + "s";
-  fw.style.animationDuration = (3.4 + Math.random() * 1.8) + "s";
-  for (let j = 0; j < 8; j++) {
-    fw.appendChild(document.createElement("span"));
+
+  fw.style.left =
+    Math.random() * 100 + "%";
+
+  fw.style.top =
+    Math.random() * 42 + "%";
+
+  fw.style.setProperty(
+    "--fw-color",
+    randomFwColor()
+  );
+
+  fw.style.animationDelay =
+    Math.random() * 4 + "s";
+
+  fw.style.animationDuration =
+    (3.4 + Math.random() * 1.8) + "s";
+
+  for(let j = 0; j < 8; j++){
+    fw.appendChild(
+      document.createElement("span")
+    );
   }
+
   sky.appendChild(fw);
 }
 
-/* PAGE NAVIGATION */
-const pages = document.querySelectorAll(".page");
 
-function showPage(id) {
+/* =========================================================
+   PAGE NAVIGATION
+========================================================= */
+
+const pages =
+  document.querySelectorAll(".page");
+
+function showPage(id){
+
   stopAllMedia();
 
   pages.forEach(page => {
-    page.classList.toggle("active", page.id === id);
+
+    page.classList.toggle(
+      "active",
+      page.id === id
+    );
+
   });
 
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
 
-  if (id === "message") {
+  if(id === "message"){
     startGodspeed();
   }
 }
 
-/* STOP ALL MEDIA — prevents songs/video from overlapping when navigating between pages */
-function stopAllMedia() {
-  const godspeed = document.getElementById("godspeedPlayer");
-  if (godspeed) godspeed.src = "";
 
-  const macPlayer = document.getElementById("macdemarcoPlayer");
-  if (macPlayer) macPlayer.src = "";
+/* =========================================================
+   STOP MEDIA
+========================================================= */
 
-  const macWrap = document.getElementById("spotifySong");
-  if (macWrap) macWrap.style.display = "none";
+function stopAllMedia(){
 
-  const vinyl = document.getElementById("vinyl");
-  if (vinyl) vinyl.classList.remove("playing");
+  const godspeed =
+    document.getElementById("godspeedPlayer");
 
-  const video = document.getElementById("video");
-  if (video) video.src = "";
+  if(godspeed){
+    godspeed.src = "";
+  }
 
-  const cover = document.getElementById("videoCover");
-  if (cover) cover.style.display = "";
+
+  const macPlayer =
+    document.getElementById("macdemarcoPlayer");
+
+  if(macPlayer){
+    macPlayer.src = "";
+  }
+
+
+  const macWrap =
+    document.getElementById("spotifySong");
+
+  if(macWrap){
+    macWrap.style.display = "none";
+  }
+
+
+  const vinyl =
+    document.getElementById("vinyl");
+
+  if(vinyl){
+    vinyl.classList.remove("playing");
+  }
+
+
+  const video =
+    document.getElementById("video");
+
+  if(video){
+    video.src = "";
+  }
+
+
+  const cover =
+    document.getElementById("videoCover");
+
+  if(cover){
+    cover.style.display = "";
+  }
+
 }
 
-/* ENVELOPE */
+
+/* =========================================================
+   ENVELOPE
+========================================================= */
+
 let envelopeOpened = false;
 
-function openEnvelope() {
-  if (envelopeOpened) return;
+function openEnvelope(){
+
+  if(envelopeOpened) return;
+
   envelopeOpened = true;
 
-  const envelope = document.getElementById("envelope");
-  const text = document.querySelector(".open-text");
+  const envelope =
+    document.getElementById("envelope");
+
+  const text =
+    document.querySelector(".open-text");
 
   envelope.classList.add("open");
+
   text.style.opacity = "0";
 
   createHearts();
 
-  setTimeout(() => { showPage("gifts"); }, 1500);
+  setTimeout(() => {
+    showPage("gifts");
+  },1500);
+
 }
 
-/* GODSPEED */
-function startGodspeed() {
-  const player = document.getElementById("godspeedPlayer");
-  if (!player) return;
 
-  player.src = "https://open.spotify.com/embed/track/34xTFwjPQ1dC6uJmleno7x?utm_source=generator&si=e6d9cc6e92f54952&autoplay=1";
+/* =========================================================
+   GODSPEED
+========================================================= */
+
+function startGodspeed(){
+
+  const player =
+    document.getElementById("godspeedPlayer");
+
+  if(!player) return;
+
+  player.src =
+    "https://open.spotify.com/embed/track/34xTFwjPQ1dC6uJmleno7x?utm_source=generator&si=e6d9cc6e92f54952&autoplay=1";
+
 }
 
-/* MAC DEMARCO */
-function playSong() {
-  const vinyl = document.getElementById("vinyl");
-  const player = document.getElementById("spotifySong");
-  const macPlayer = document.getElementById("macdemarcoPlayer");
+
+/* =========================================================
+   MAC DEMARCO
+========================================================= */
+
+function playSong(){
+
+  const vinyl =
+    document.getElementById("vinyl");
+
+  const player =
+    document.getElementById("spotifySong");
+
+  const macPlayer =
+    document.getElementById("macdemarcoPlayer");
 
   vinyl.classList.add("playing");
+
   player.style.display = "block";
 
-  const songSrc = "https://open.spotify.com/embed/track/0WiMJIxYYEex2AqhRqzV3u?utm_source=generator&si=31747ef2d3dc4010&autoplay=1";
-  if (macPlayer && macPlayer.src !== songSrc) {
+  const songSrc =
+    "https://open.spotify.com/embed/track/0WiMJIxYYEex2AqhRqzV3u?utm_source=generator&si=31747ef2d3dc4010&autoplay=1";
+
+  if(macPlayer && macPlayer.src !== songSrc){
     macPlayer.src = songSrc;
   }
+
 }
 
-/* VIDEO */
-function playVideo() {
-  const cover = document.getElementById("videoCover");
-  const video = document.getElementById("video");
 
-  video.src = "https://www.youtube.com/embed/lg5prG_4tpA?si=7zqI5t0ACrqEX2BX&autoplay=1&rel=0";
+/* =========================================================
+   VIDEO
+========================================================= */
+
+function playVideo(){
+
+  const cover =
+    document.getElementById("videoCover");
+
+  const video =
+    document.getElementById("video");
+
+  video.src =
+    "https://www.youtube.com/embed/lg5prG_4tpA?si=7zqI5t0ACrqEX2BX&autoplay=1&rel=0";
+
   cover.style.display = "none";
+
 }
 
-/* FLOATING HEARTS */
-function createHearts() {
-  for (let i = 0; i < 18; i++) {
+
+/* =========================================================
+   FLOATING HEARTS
+========================================================= */
+
+function createHearts(){
+
+  for(let i = 0; i < 18; i++){
+
     setTimeout(() => {
-      const heart = document.createElement("div");
-      heart.className = "pixel-heart";
-      heart.textContent = Math.random() > .5 ? "♡" : "✦";
-      heart.style.left = Math.random() * 100 + "vw";
-      heart.style.animationDuration = 3 + Math.random() * 2 + "s";
+
+      const heart =
+        document.createElement("div");
+
+      heart.className =
+        "pixel-heart";
+
+      heart.textContent =
+        Math.random() > .5 ? "♡" : "✦";
+
+      heart.style.left =
+        Math.random() * 100 + "vw";
+
+      heart.style.animationDuration =
+        3 + Math.random() * 2 + "s";
+
       document.body.appendChild(heart);
-      setTimeout(() => heart.remove(), 5500);
-    }, i * 130);
+
+      setTimeout(() => {
+        heart.remove();
+      },5500);
+
+    },i * 130);
+
   }
+
 }
 
-/* FIREWORK CANVAS */
-const canvas = document.getElementById("fireworks");
-const ctx = canvas.getContext("2d");
+
+/* =========================================================
+   FIREWORK CANVAS
+========================================================= */
+
+const canvas =
+  document.getElementById("fireworks");
+
+const ctx =
+  canvas.getContext("2d");
+
 let fireworks = [];
 
-function resizeCanvas() {
-  canvas.width = window.innerWidth * devicePixelRatio;
-  canvas.height = window.innerHeight * devicePixelRatio;
-  canvas.style.width = window.innerWidth + "px";
-  canvas.style.height = window.innerHeight + "px";
-  ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
-}
-resizeCanvas();
-window.addEventListener("resize", resizeCanvas);
 
-class Particle {
-  constructor(x, y, angle, speed, color, size) {
-    this.x = x; this.y = y;
-    this.angle = angle; this.speed = speed;
-    this.life = 1; this.gravity = .045;
-    this.color = color || randomFwColor();
-    this.size = size || (Math.random() > .7 ? 3 : 2);
-  }
-  update() {
-    this.x += Math.cos(this.angle) * this.speed;
-    this.y += Math.sin(this.angle) * this.speed;
-    this.speed *= .96;
-    this.y += this.gravity;
-    this.life -= .018;
-  }
-  draw() {
-    ctx.globalAlpha = Math.max(this.life, 0);
-    ctx.fillStyle = this.color;
-    ctx.shadowColor = this.color;
-    ctx.shadowBlur = 6;
-    ctx.fillRect(this.x, this.y, this.size, this.size);
-    ctx.shadowBlur = 0;
-    ctx.globalAlpha = 1;
-  }
+function resizeCanvas(){
+
+  canvas.width =
+    window.innerWidth * devicePixelRatio;
+
+  canvas.height =
+    window.innerHeight * devicePixelRatio;
+
+  canvas.style.width =
+    window.innerWidth + "px";
+
+  canvas.style.height =
+    window.innerHeight + "px";
+
+  ctx.setTransform(
+    devicePixelRatio,
+    0,
+    0,
+    devicePixelRatio,
+    0,
+    0
+  );
+
 }
+
+resizeCanvas();
+
+window.addEventListener(
+  "resize",
+  resizeCanvas
+);
+
+
+class Particle{
+
+  constructor(
+    x,
+    y,
+    angle,
+    speed,
+    color,
+    size
+  ){
+
+    this.x = x;
+    this.y = y;
+    this.angle = angle;
+    this.speed = speed;
+
+    this.life = 1;
+
+    this.gravity = .045;
+
+    this.color =
+      color || randomFwColor();
+
+    this.size =
+      size ||
+      (Math.random() > .7 ? 3 : 2);
+
+  }
+
+
+  update(){
+
+    this.x +=
+      Math.cos(this.angle) *
+      this.speed;
+
+    this.y +=
+      Math.sin(this.angle) *
+      this.speed;
+
+    this.speed *= .96;
+
+    this.y += this.gravity;
+
+    this.life -= .018;
+
+  }
+
+
+  draw(){
+
+    ctx.globalAlpha =
+      Math.max(this.life,0);
+
+    ctx.fillStyle =
+      this.color;
+
+    ctx.shadowColor =
+      this.color;
+
+    ctx.shadowBlur = 6;
+
+    ctx.fillRect(
+      this.x,
+      this.y,
+      this.size,
+      this.size
+    );
+
+    ctx.shadowBlur = 0;
+
+    ctx.globalAlpha = 1;
+
+  }
+
+}
+
 
 let fireworksRunning = false;
 
-/* createFirework now accepts an options object: count, speedMin, speedMax, size, color.
-   When color isn't passed, each burst picks its own random color from the palette. */
-function createFirework(x, y, options = {}) {
-  const count = options.count || 48;
-  const speedMin = options.speedMin ?? 1.5;
-  const speedMax = options.speedMax ?? 4;
-  const size = options.size;
-  const color = options.color || randomFwColor();
 
-  for (let i = 0; i < count; i++) {
-    fireworks.push(new Particle(
-      x, y,
-      (Math.PI * 2 * i) / count,
-      speedMin + Math.random() * (speedMax - speedMin),
-      color,
-      size
-    ));
+function createFirework(
+  x,
+  y,
+  options = {}
+){
+
+  const count =
+    options.count || 48;
+
+  const speedMin =
+    options.speedMin ?? 1.5;
+
+  const speedMax =
+    options.speedMax ?? 4;
+
+  const size =
+    options.size;
+
+  const color =
+    options.color ||
+    randomFwColor();
+
+
+  for(let i = 0; i < count; i++){
+
+    fireworks.push(
+      new Particle(
+        x,
+        y,
+        (Math.PI * 2 * i) / count,
+        speedMin +
+          Math.random() *
+          (speedMax - speedMin),
+        color,
+        size
+      )
+    );
+
   }
-  if (!fireworksRunning) {
+
+
+  if(!fireworksRunning){
+
     fireworksRunning = true;
+
     animateFireworks();
+
   }
+
 }
 
-function animateFireworks() {
-  ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-  fireworks = fireworks.filter(particle => particle.life > 0);
-  fireworks.forEach(particle => { particle.update(); particle.draw(); });
 
-  if (fireworks.length > 0) {
-    requestAnimationFrame(animateFireworks);
-  } else {
+function animateFireworks(){
+
+  ctx.clearRect(
+    0,
+    0,
+    window.innerWidth,
+    window.innerHeight
+  );
+
+  fireworks =
+    fireworks.filter(
+      particle => particle.life > 0
+    );
+
+  fireworks.forEach(
+    particle => {
+      particle.update();
+      particle.draw();
+    }
+  );
+
+
+  if(fireworks.length > 0){
+
+    requestAnimationFrame(
+      animateFireworks
+    );
+
+  }else{
+
     fireworksRunning = false;
+
   }
+
 }
 
-/* FIREWORK SOUNDS — more realistic layered launch + boom + crackle */
+
+/* =========================================================
+   FIREWORK AUDIO
+   iOS / iPHONE FIX
+========================================================= */
+
 let audioContext = null;
 
-function getAudioContext() {
-  if (!audioContext) {
-    const AudioCtx = window.AudioContext || window.webkitAudioContext;
-    if (!AudioCtx) return null;
-    audioContext = new AudioCtx();
+let audioUnlocked = false;
+
+
+/*
+  Creates the AudioContext and makes sure
+  it is actually running.
+
+  iPhone Safari blocks Web Audio until it is
+  started from a real user interaction.
+*/
+
+async function unlockAudio(){
+
+  try{
+
+    const AudioCtx =
+      window.AudioContext ||
+      window.webkitAudioContext;
+
+    if(!AudioCtx){
+      return false;
+    }
+
+
+    if(!audioContext){
+
+      audioContext =
+        new AudioCtx();
+
+    }
+
+
+    /*
+      iOS normally starts the AudioContext
+      in the "suspended" state.
+    */
+
+    if(audioContext.state === "suspended"){
+
+      await audioContext.resume();
+
+    }
+
+
+    /*
+      Create a tiny silent oscillator.
+
+      This is important for iOS because it
+      establishes an actual audio output during
+      the user's tap.
+    */
+
+    if(!audioUnlocked){
+
+      const oscillator =
+        audioContext.createOscillator();
+
+      const gain =
+        audioContext.createGain();
+
+      gain.gain.setValueAtTime(
+        0.00001,
+        audioContext.currentTime
+      );
+
+      oscillator.connect(gain);
+
+      gain.connect(
+        audioContext.destination
+      );
+
+      oscillator.start();
+
+      oscillator.stop(
+        audioContext.currentTime + 0.01
+      );
+
+      audioUnlocked = true;
+
+    }
+
+
+    return (
+      audioContext.state === "running"
+    );
+
+  }catch(error){
+
+    console.log(
+      "Audio unlock failed:",
+      error
+    );
+
+    return false;
+
   }
-  if (audioContext.state === "suspended") audioContext.resume();
+
+}
+
+
+/*
+  Returns the existing AudioContext.
+*/
+
+function getAudioContext(){
+
+  const AudioCtx =
+    window.AudioContext ||
+    window.webkitAudioContext;
+
+  if(!AudioCtx){
+    return null;
+  }
+
+
+  if(!audioContext){
+
+    audioContext =
+      new AudioCtx();
+
+  }
+
+
   return audioContext;
+
 }
 
-function playFireworkSound(delay = 0, intensity = 1) {
-  const ac = getAudioContext();
-  if (!ac) return;
 
-  const start = ac.currentTime + delay;
+/*
+  Individual fireworks sound.
+*/
 
-  // 1) Rising rocket trail.
-  const osc = ac.createOscillator();
-  const oscGain = ac.createGain();
-  const filter = ac.createBiquadFilter();
+function playFireworkSound(
+  delay = 0,
+  intensity = 1
+){
 
-  osc.type = "sawtooth";
-  osc.frequency.setValueAtTime(55, start);
-  osc.frequency.exponentialRampToValueAtTime(420, start + 0.55);
-  filter.type = "lowpass";
-  filter.frequency.setValueAtTime(450, start);
-  filter.frequency.exponentialRampToValueAtTime(2200, start + 0.48);
+  const ac =
+    getAudioContext();
 
-  oscGain.gain.setValueAtTime(0.0001, start);
-  oscGain.gain.exponentialRampToValueAtTime(0.055 * intensity, start + 0.25);
-  oscGain.gain.exponentialRampToValueAtTime(0.0001, start + 0.60);
+  /*
+    IMPORTANT:
 
-  osc.connect(filter).connect(oscGain).connect(ac.destination);
-  osc.start(start);
-  osc.stop(start + 0.62);
+    Do not schedule audio if iOS has
+    suspended the context.
+  */
 
-  // 2) Deep explosion body.
-  const boomLength = 1.05;
-  const boomBuffer = ac.createBuffer(1, Math.floor(ac.sampleRate * boomLength), ac.sampleRate);
-  const boomData = boomBuffer.getChannelData(0);
+  if(
+    !ac ||
+    ac.state !== "running"
+  ){
 
-  for (let i = 0; i < boomData.length; i++) {
-    const t = i / ac.sampleRate;
-    const envelope = Math.exp(-3.9 * t);
-    boomData[i] = (Math.random() * 2 - 1) * envelope;
+    return;
+
   }
 
-  const boom = ac.createBufferSource();
-  const boomFilter = ac.createBiquadFilter();
-  const boomGain = ac.createGain();
 
-  boom.buffer = boomBuffer;
-  boomFilter.type = "lowpass";
-  boomFilter.frequency.setValueAtTime(700, start + 0.58);
-  boomFilter.frequency.exponentialRampToValueAtTime(90, start + 1.45);
+  const start =
+    ac.currentTime + delay;
 
-  boomGain.gain.setValueAtTime(0.0001, start + 0.57);
-  boomGain.gain.exponentialRampToValueAtTime(0.55 * intensity, start + 0.59);
-  boomGain.gain.exponentialRampToValueAtTime(0.0001, start + 1.48);
 
-  boom.connect(boomFilter).connect(boomGain).connect(ac.destination);
-  boom.start(start + 0.56);
-  boom.stop(start + 1.52);
+  /* -------------------------------------------------------
+     1. ROCKET TRAIL
+  ------------------------------------------------------- */
 
-  // 3) Bright crackling sparks after the main explosion.
-  const crackleLength = 1.15;
-  const crackleBuffer = ac.createBuffer(
-    1, Math.floor(ac.sampleRate * crackleLength), ac.sampleRate
+  const osc =
+    ac.createOscillator();
+
+  const oscGain =
+    ac.createGain();
+
+  const filter =
+    ac.createBiquadFilter();
+
+
+  osc.type =
+    "sawtooth";
+
+
+  osc.frequency.setValueAtTime(
+    55,
+    start
   );
-  const crackleData = crackleBuffer.getChannelData(0);
 
-  for (let i = 0; i < crackleData.length; i++) {
-    const t = i / ac.sampleRate;
-    const envelope = Math.exp(-2.6 * t);
-    // Sparse impulses make it sound more like individual sparks.
-    const impulse = Math.random() > 0.965 ? 1 : 0;
-    crackleData[i] = (Math.random() * 2 - 1) * impulse * envelope;
+  osc.frequency.exponentialRampToValueAtTime(
+    420,
+    start + 0.55
+  );
+
+
+  filter.type =
+    "lowpass";
+
+  filter.frequency.setValueAtTime(
+    450,
+    start
+  );
+
+  filter.frequency.exponentialRampToValueAtTime(
+    2200,
+    start + 0.48
+  );
+
+
+  oscGain.gain.setValueAtTime(
+    0.0001,
+    start
+  );
+
+  oscGain.gain.exponentialRampToValueAtTime(
+    0.055 * intensity,
+    start + 0.25
+  );
+
+  oscGain.gain.exponentialRampToValueAtTime(
+    0.0001,
+    start + 0.60
+  );
+
+
+  osc.connect(filter);
+
+  filter.connect(oscGain);
+
+  oscGain.connect(
+    ac.destination
+  );
+
+
+  osc.start(start);
+
+  osc.stop(
+    start + 0.62
+  );
+
+
+  /* -------------------------------------------------------
+     2. DEEP EXPLOSION
+  ------------------------------------------------------- */
+
+  const boomLength = 1.05;
+
+  const boomBuffer =
+    ac.createBuffer(
+      1,
+      Math.floor(
+        ac.sampleRate *
+        boomLength
+      ),
+      ac.sampleRate
+    );
+
+  const boomData =
+    boomBuffer.getChannelData(0);
+
+
+  for(
+    let i = 0;
+    i < boomData.length;
+    i++
+  ){
+
+    const t =
+      i / ac.sampleRate;
+
+    const envelope =
+      Math.exp(-3.9 * t);
+
+    boomData[i] =
+      (Math.random() * 2 - 1) *
+      envelope;
+
   }
 
-  const crackle = ac.createBufferSource();
-  const crackleFilter = ac.createBiquadFilter();
-  const crackleGain = ac.createGain();
 
-  crackle.buffer = crackleBuffer;
-  crackleFilter.type = "highpass";
-  crackleFilter.frequency.setValueAtTime(1400, start + 0.62);
+  const boom =
+    ac.createBufferSource();
 
-  crackleGain.gain.setValueAtTime(0.0001, start + 0.63);
-  crackleGain.gain.exponentialRampToValueAtTime(0.38 * intensity, start + 0.65);
-  crackleGain.gain.exponentialRampToValueAtTime(0.0001, start + 1.55);
+  const boomFilter =
+    ac.createBiquadFilter();
 
-  crackle.connect(crackleFilter).connect(crackleGain).connect(ac.destination);
-  crackle.start(start + 0.62);
-  crackle.stop(start + 1.58);
+  const boomGain =
+    ac.createGain();
+
+
+  boom.buffer =
+    boomBuffer;
+
+
+  boomFilter.type =
+    "lowpass";
+
+  boomFilter.frequency.setValueAtTime(
+    700,
+    start + 0.58
+  );
+
+  boomFilter.frequency.exponentialRampToValueAtTime(
+    90,
+    start + 1.45
+  );
+
+
+  boomGain.gain.setValueAtTime(
+    0.0001,
+    start + 0.57
+  );
+
+  boomGain.gain.exponentialRampToValueAtTime(
+    0.55 * intensity,
+    start + 0.59
+  );
+
+  boomGain.gain.exponentialRampToValueAtTime(
+    0.0001,
+    start + 1.48
+  );
+
+
+  boom.connect(boomFilter);
+
+  boomFilter.connect(boomGain);
+
+  boomGain.connect(
+    ac.destination
+  );
+
+
+  boom.start(
+    start + 0.56
+  );
+
+  boom.stop(
+    start + 1.52
+  );
+
+
+  /* -------------------------------------------------------
+     3. CRACKLING SPARKS
+  ------------------------------------------------------- */
+
+  const crackleLength =
+    1.15;
+
+  const crackleBuffer =
+    ac.createBuffer(
+      1,
+      Math.floor(
+        ac.sampleRate *
+        crackleLength
+      ),
+      ac.sampleRate
+    );
+
+  const crackleData =
+    crackleBuffer.getChannelData(0);
+
+
+  for(
+    let i = 0;
+    i < crackleData.length;
+    i++
+  ){
+
+    const t =
+      i / ac.sampleRate;
+
+    const envelope =
+      Math.exp(-2.6 * t);
+
+    const impulse =
+      Math.random() > 0.965
+        ? 1
+        : 0;
+
+    crackleData[i] =
+      (Math.random() * 2 - 1) *
+      impulse *
+      envelope;
+
+  }
+
+
+  const crackle =
+    ac.createBufferSource();
+
+  const crackleFilter =
+    ac.createBiquadFilter();
+
+  const crackleGain =
+    ac.createGain();
+
+
+  crackle.buffer =
+    crackleBuffer;
+
+
+  crackleFilter.type =
+    "highpass";
+
+  crackleFilter.frequency.setValueAtTime(
+    1400,
+    start + 0.62
+  );
+
+
+  crackleGain.gain.setValueAtTime(
+    0.0001,
+    start + 0.63
+  );
+
+  crackleGain.gain.exponentialRampToValueAtTime(
+    0.38 * intensity,
+    start + 0.65
+  );
+
+  crackleGain.gain.exponentialRampToValueAtTime(
+    0.0001,
+    start + 1.55
+  );
+
+
+  crackle.connect(
+    crackleFilter
+  );
+
+  crackleFilter.connect(
+    crackleGain
+  );
+
+  crackleGain.connect(
+    ac.destination
+  );
+
+
+  crackle.start(
+    start + 0.62
+  );
+
+  crackle.stop(
+    start + 1.58
+  );
+
 }
 
-function playFireworksSequenceSound() {
+
+/*
+  Plays the entire fireworks sound sequence.
+
+  IMPORTANT:
+  This function first waits for iOS
+  audio to be unlocked.
+*/
+
+async function playFireworksSequenceSound(){
+
+  const unlocked =
+    await unlockAudio();
+
+
+  if(!unlocked){
+
+    console.log(
+      "Audio could not be started."
+    );
+
+    return;
+
+  }
+
+
   const burstCount = 12;
 
-  // Slight timing variation keeps the sequence from sounding artificial.
-  for (let i = 0; i < burstCount; i++) {
-    const delay = i * 0.20 + (Math.random() * 0.035);
-    playFireworkSound(delay, 0.62 + Math.random() * 0.22);
+
+  for(
+    let i = 0;
+    i < burstCount;
+    i++
+  ){
+
+    const delay =
+      i * 0.20 +
+      Math.random() * 0.035;
+
+    playFireworkSound(
+      delay,
+      0.62 +
+      Math.random() * 0.22
+    );
+
   }
 
-  // Big finale: several overlapping shells, like a real fireworks finale.
-  const finaleDelay = burstCount * 0.20 + 0.35;
-  playFireworkSound(finaleDelay, 1.25);
-  playFireworkSound(finaleDelay + 0.10, 1.05);
-  playFireworkSound(finaleDelay + 0.20, 0.90);
-  playFireworkSound(finaleDelay + 0.31, 0.78);
+
+  /*
+    Big finale
+  */
+
+  const finaleDelay =
+    burstCount * 0.20 +
+    0.35;
+
+
+  playFireworkSound(
+    finaleDelay,
+    1.25
+  );
+
+  playFireworkSound(
+    finaleDelay + 0.10,
+    1.05
+  );
+
+  playFireworkSound(
+    finaleDelay + 0.20,
+    0.90
+  );
+
+  playFireworkSound(
+    finaleDelay + 0.31,
+    0.78
+  );
+
 }
 
-/* MAKE A WISH — more bursts, brighter colors, and a big finale */
-function makeWish() {
-  const button = document.getElementById("wishButton");
-  const prompt = document.getElementById("revealPrompt");
 
-  button.classList.add("hidden");
+/* =========================================================
+   MAKE A WISH
+   iOS FIXED VERSION
+========================================================= */
+
+async function makeWish(){
+
+  const button =
+    document.getElementById(
+      "wishButton"
+    );
+
+  const prompt =
+    document.getElementById(
+      "revealPrompt"
+    );
+
+
+  /*
+    VERY IMPORTANT:
+
+    Unlock audio immediately while
+    this function is still running
+    because it was triggered by the
+    user's physical tap.
+
+    This is what fixes iPhone.
+  */
+
+  await unlockAudio();
+
+
+  button.classList.add(
+    "hidden"
+  );
+
+
   createHearts();
+
+
+  /*
+    Now start the fireworks sound.
+  */
+
   playFireworksSequenceSound();
 
+
+  /* -------------------------------------------------------
+     FIREWORK POSITIONS
+  ------------------------------------------------------- */
+
   const positions = [
-    [.15,.24],[.83,.22],[.50,.14],[.27,.38],
-    [.73,.38],[.50,.29],[.12,.48],[.88,.48],
-    [.32,.16],[.68,.16],[.08,.32],[.92,.32]
+
+    [.15,.24],
+    [.83,.22],
+    [.50,.14],
+    [.27,.38],
+    [.73,.38],
+    [.50,.29],
+    [.12,.48],
+    [.88,.48],
+    [.32,.16],
+    [.68,.16],
+    [.08,.32],
+    [.92,.32]
+
   ];
 
-  positions.forEach((position, index) => {
-    setTimeout(() => {
-      createFirework(
-        window.innerWidth * position[0],
-        window.innerHeight * position[1],
-        { count: 65, speedMin: 2, speedMax: 5.5 }
-      );
-    }, index * 200);
-  });
 
-  /* grand finale: a bigger, layered burst dead center once the sequence finishes */
-  const finaleDelay = positions.length * 200 + 350;
-  setTimeout(() => {
-    createFirework(window.innerWidth * .5, window.innerHeight * .32, {
-      count: 150, speedMin: 3.5, speedMax: 8, size: 3, color: "#ffffff"
-    });
-    createFirework(window.innerWidth * .5, window.innerHeight * .32, {
-      count: 100, speedMin: 2.5, speedMax: 6.5, color: "#f3b6ce"
-    });
-    createFirework(window.innerWidth * .4, window.innerHeight * .38, {
-      count: 70, speedMin: 2, speedMax: 5, color: "#b8e3ff"
-    });
-    createFirework(window.innerWidth * .6, window.innerHeight * .38, {
-      count: 70, speedMin: 2, speedMax: 5, color: "#ffe9a8"
-    });
-  }, finaleDelay);
+  positions.forEach(
+    (position,index) => {
 
-  setTimeout(() => { prompt.classList.add("show"); }, finaleDelay + 1500);
-}
+      setTimeout(() => {
 
-/* REVEAL POLAROID */
-function revealMessage() {
-  const prompt = document.getElementById("revealPrompt");
-  const surprise = document.getElementById("surprise");
+        createFirework(
 
-  prompt.style.display = "none";
-  surprise.classList.add("show");
-  createHearts();
+          window.innerWidth *
+            position[0],
+
+          window.innerHeight *
+            position[1],
+
+          {
+            count:65,
+            speedMin:2,
+            speedMax:5.5
+          }
+
+        );
+
+      },index * 200);
+
+    }
+  );
+
+
+  /* -------------------------------------------------------
+     GRAND FINALE
+  ------------------------------------------------------- */
+
+  const finaleDelay =
+    positions.length * 200 +
+    350;
+
 
   setTimeout(() => {
-    createFirework(window.innerWidth / 2, window.innerHeight * .35, { count: 70 });
-  }, 350);
+
+    createFirework(
+
+      window.innerWidth * .5,
+
+      window.innerHeight * .32,
+
+      {
+        count:150,
+        speedMin:3.5,
+        speedMax:8,
+        size:3,
+        color:"#ffffff"
+      }
+
+    );
+
+
+    createFirework(
+
+      window.innerWidth * .5,
+
+      window.innerHeight * .32,
+
+      {
+        count:100,
+        speedMin:2.5,
+        speedMax:6.5,
+        color:"#f3b6ce"
+      }
+
+    );
+
+
+    createFirework(
+
+      window.innerWidth * .4,
+
+      window.innerHeight * .38,
+
+      {
+        count:70,
+        speedMin:2,
+        speedMax:5,
+        color:"#b8e3ff"
+      }
+
+    );
+
+
+    createFirework(
+
+      window.innerWidth * .6,
+
+      window.innerHeight * .38,
+
+      {
+        count:70,
+        speedMin:2,
+        speedMax:5,
+        color:"#ffe9a8"
+      }
+
+    );
+
+  },finaleDelay);
+
+
+  /*
+    Show the next button after
+    the fireworks are finished.
+  */
+
+  setTimeout(() => {
+
+    prompt.classList.add(
+      "show"
+    );
+
+  },finaleDelay + 1500);
+
 }
 
-/* POLAROID */
-function openPolaroid() {
-  const polaroid = document.querySelector(".polaroid");
 
-  polaroid.animate([
-    { transform: "rotate(-2deg) scale(1)" },
-    { transform: "rotate(2deg) scale(1.08)" },
-    { transform: "rotate(-1deg) scale(1.03)" },
-    { transform: "rotate(-2deg) scale(1)" }
-  ], { duration: 850, easing: "cubic-bezier(.2,.8,.2,1)" });
+/* =========================================================
+   REVEAL POLAROID
+========================================================= */
+
+function revealMessage(){
+
+  const prompt =
+    document.getElementById(
+      "revealPrompt"
+    );
+
+  const surprise =
+    document.getElementById(
+      "surprise"
+    );
+
+
+  prompt.style.display =
+    "none";
+
+  surprise.classList.add(
+    "show"
+  );
 
   createHearts();
+
+
+  setTimeout(() => {
+
+    createFirework(
+
+      window.innerWidth / 2,
+
+      window.innerHeight * .35,
+
+      {
+        count:70
+      }
+
+    );
+
+  },350);
+
 }
+
+
+/* =========================================================
+   POLAROID
+========================================================= */
+
+function openPolaroid(){
+
+  const polaroid =
+    document.querySelector(
+      ".polaroid"
+    );
+
+
+  polaroid.animate(
+
+    [
+      {
+        transform:
+          "rotate(-2deg) scale(1)"
+      },
+
+      {
+        transform:
+          "rotate(2deg) scale(1.08)"
+      },
+
+      {
+        transform:
+          "rotate(-1deg) scale(1.03)"
+      },
+
+      {
+        transform:
+          "rotate(-2deg) scale(1)"
+      }
+    ],
+
+    {
+      duration:850,
+      easing:
+        "cubic-bezier(.2,.8,.2,1)"
+    }
+
+  );
+
+
+  createHearts();
+
+}
+
 </script>
 
 </body>
